@@ -1,0 +1,9 @@
+node_modules/
+
+dist/
+
+src/output.css
+dist/output.css
+
+.DS_Store
+.env
