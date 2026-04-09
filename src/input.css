@@ -1,1 +1,53 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'Vivaldi';
+    src: url('/assets/font/vivaldi-italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lucida';
+    src: url('/assets/font/LucidaUnicodeCalligraphy.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Codex';
+    src: url('/assets/font/CodexLTRegular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Anaktoria';
+    src: url('/assets/font/Anaktoria.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Amoresa';
+    src: url('/assets/font/amoresa-regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@theme {
+    --font-vivaldi: 'Vivaldi', cursive;
+    --font-lucida: 'Lucida', cursive;
+    --font-codex: 'Codex', serif;
+    --font-anaktoria: 'Anaktoria', cursive;
+    --font-amoresa: 'Amoresa', cursive;
+}
+
+@layer base {
+    html, body {
+        max-width: 430px;
+        margin: 0 auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+}
