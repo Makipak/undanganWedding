@@ -44,10 +44,16 @@
 }
 
 @layer base {
+    :root {
+        --bg: #f9f5f0;
+    }
+
     html, body {
         max-width: 430px;
         margin: 0 auto;
         min-height: 100vh;
         overflow-x: hidden;
+
+        background-color: var(--bg);
     }
 }
