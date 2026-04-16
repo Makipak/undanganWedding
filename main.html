@@ -14,9 +14,9 @@
     <title>Document</title>
 </head>
 <body>
+<main class="page">
     <!-- bagian atas -->
-     <div class="relative w-full h-72">
-        <div>
+        <header class="relative w-full h-72 overflow-hidden">
             <div class="w-25 h-15 absolute translate-x-2">
                 <img src="/assets/svg/halamanDua/lampuKiri.svg" alt="">
             </div>
@@ -45,31 +45,267 @@
             <div class="w-45 h-auto absolute left-1/2 -translate-x-23 translate-y-52">
                 <img src="/assets/svg/halamanDua/taliBawah.svg" alt="">
             </div>
-        </div>
-     </div>
+        </header>
 
-     <!-- tampilan utama -->
-      <div class="flex flex-col items-center gap-8 mt-6 px-6 w-full">
-        <!-- a rama -->
-         <div class="flex flex-row items-center gap-6 w-full max-w-xs">
-            <img class="w-30 h-auto shrink-0" src="/assets/svg/halamanDua/mempelaiLaki.svg" alt="">
-            <div class="space-y-1">
-                <h2 class="text-xs leading-tight -translate-y-12 -translate-x-4">Taufan Bisma Ramadhan S.Log.</h2>
-                <p>The beloved first son of</p>
-                <p>Mr. Agus Taufik N (Almarhum) & Mrs. Istiqomah</p>
-                <div class="bg-green-500 w-10 h-auto rounded-full">
-                    <p>halo </p>
+        <section class="w-full px-3 py-4">
+ 
+            <!-- ── Mempelai Pria · Foto kiri (32%) | Info kanan (68%) ── -->
+            <div class="flex gap-2 items-stretch">
+ 
+                <!-- Foto portrait (≈ 32% lebar, rasio 3:4) -->
+                <div class="ph w-[32%] shrink-0 aspect-[3/4]">
+                    <img src="/assets/svg/halamanDua/mempelaiLaki.svg" alt="">
+                </div>
+ 
+                <!-- Kolom info -->
+                <div class="flex-1 flex flex-col justify-center gap-2 py-1">
+                    <!-- Nama lengkap -->
+                    <div class="ph h-7 w-full">
+                        <h1>Nama Laki Laki</h1>
+                    </div>
+                    <!-- Subtitle orang tua / deskripsi -->
+                    <div class="ph h-11 w-full">
+                        <h3>halah nyocot</h3>
+                    </div>
+                    <!-- Badge / tombol Instagram -->
+                    <div class="ph h-7 w-3/5 bg-green-400">
+                        <h5>ig orang</h5>
+                    </div>
                 </div>
             </div>
-         </div>
+ 
+            <!-- ── Separator "&" (dekoratif, center) ── -->
+            <div class="flex items-center justify-center my-3">
+                <div class="ph w-12 h-12"">
+                    <h1>&</h1>
+                </div>
+            </div>
+ 
+            <!-- ── Mempelai Wanita · Info kiri (68%) | Foto kanan (32%) ── -->
+            <div class="flex gap-2 items-stretch">
+ 
+                <!-- Kolom info -->
+                <div class="flex-1 flex flex-col justify-center gap-2 py-1">
+                    <div class="ph h-7 w-full">
+                        <h1>Nama Perempuan</h1>
+                    </div>
+                    <div class="ph h-11 w-full">
+                        <h2>halah nyocot</h2>
+                    </div>
+                    <div class="ph h-7 w-3/5 bg-green-400">
+                        <h5>ig laha daha</h5>
+                    </div>
+                </div>
+ 
+                <!-- Foto portrait (≈ 32% lebar, rasio 3:4) -->
+                <div class="ph w-[32%] shrink-0 aspect-3/4">
+                    <img src="/assets/svg/halamanDua/mempelaiPerempuan.svg" alt="">
+                </div>
+ 
+            </div>
+        </section>
 
-         <span class="text-lg font-semibold">&</span>
+        <section class="w-full px-3 py-5">
+            <div class="flex gap-3 items-stretch">
+ 
+                <!-- Tanggal besar dekoratif (≈ 35% lebar) -->
+                <div class="ph w-[35%] shrink-0 aspect-3/4">
+                    <p>06</p><br>
+                    <p>sept</p><br>
+                    <p>2026</p>
+                </div>
+ 
+                <!-- Jadwal acara (≈ 65% lebar, 3 baris + 2 pemisah) -->
+                <div class="flex-1 flex flex-col justify-around gap-1">
 
-         <!-- mia -->
-          <div class="flex flex-row-reverse items-center gap-4 w-full max-w-xs">
-            <img src="/assets/svg/halamanDua/mempelaiPerempuan.svg" alt="">
-          </div>
-          
-      </div>
+                    <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
+ 
+                    <!-- Akad Nikah -->
+                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 1&#10;(Akad)">
+                        <p>16:00 - 17:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;akad</p>
+                    </div>
+ 
+                    <!-- Garis pemisah -->
+                    <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
+ 
+                    <!-- Resepsi -->
+                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 2&#10;(Reception)">
+                        <p>18:30 - 20:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reception</p>
+                    </div>
+ 
+                    <!-- Garis pemisah -->
+                    <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
+ 
+                    <!-- After Party -->
+                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 3&#10;(After Party)">
+                        <p>20:00 - 21:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After Party</p>
+                    </div>
+
+                    <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
+ 
+                </div>
+            </div>
+        </section>
+
+        <section class="w-full px-3 py-5">
+ 
+            <!-- Heading "Location" (font script, center) -->
+            <div class="flex justify-center mb-4">
+                <div class="ph h-10 w-[55%]"
+                data-label="Heading 'Location'&#10;(Font Dekoratif / Script)"><h1>Location</h1></div>
+            </div>
+ 
+            <!-- Konten 2 kolom -->
+            <div class="flex gap-2 items-start">
+ 
+                <!-- Info venue (kiri, ≈ 44%) -->
+                <div class="w-[44%] shrink-0 flex flex-col gap-2">
+                    <!-- Nama venue -->
+                    <div class="ph h-8 w-full"  data-label="Nama Venue&#10;(e.g. Kebon Kubil)">
+                        <h2>Kebon Kubil</h2>
+                    </div>
+                    <!-- Alamat lengkap -->
+                    <div class="ph h-20 w-full" data-label="Alamat Lengkap&#10;Venue">
+                        <p>Jalan Bhayangkara Lingk. Hegar Alam No. 19 Cipocok Jaya</p>
+                    </div>
+                    <!-- Tombol peta (pill / rounded) -->
+                    <div class="ph h-9 w-full rounded-full"
+                        data-label="📍 Tombol&#10;See On Maps"><p>See On Maps</p></div>
+                </div>
+ 
+                <!-- Foto venue landscape (kanan, ≈ 56%) -->
+                <div class="flex-1">
+                    <div class="ph w-full aspect-[4/3]"data-label="Foto Venue&#10;(Landscape 4:3)">
+                        <img src="/assets/svg/halamanDua/lokasi.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </section> 
+        <section class="w-full px-2 py-5">
+ 
+            <!-- Heading "Our Story" (font script, center) -->
+            <div class="flex justify-center mb-6">
+                <div class="ph h-10 w-[55%]" data-label="Heading 'Our Story'&#10;(Font Dekoratif / Script)">
+                    <h1>Our Story</h1>
+                </div>
+            </div>
+ 
+            <!-- Timeline Grid -->
+            <div class="grid gap-y-4"
+                style="grid-template-columns: 5fr 3fr 5fr;">
+ 
+                <!--
+                Dekorasi tengah (vine / ribbon).
+                grid-row: 1 / 7 = spans baris 1 sampai 6 inklusif.
+                Tingginya otomatis = total tinggi semua 6 baris + 5 gap.
+                -->
+                <div class="ph" style="grid-column: 2; grid-row: 1 / 7;" data-label="Dekorasi&#10;Tengah&#10;(Vine /&#10;Ribbon)&#10;full height">
+                    <img src="/assets/svg/halamanDua/taliLurus.svg" alt="">
+                </div>
+ 
+                <!-- ── Baris 1: 2011 (kiri) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 1;">
+                    <div class="ph h-6 w-10" data-label="2011">
+                        <h2>2011</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2011">
+                        <img src="/assets/svg/halamanDua/buku.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2011">
+                        <p>pertemuan dll halah nyocot</p>
+                    </div>
+                </div>
+ 
+                <!-- ── Baris 2: 2016 (kanan) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 2;">
+                    <div class="ph h-6 w-10" data-label="2016">
+                        <h2>2016</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2016">
+                        <img src="/assets/svg/halamanDua/gelas.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2016">
+                        <p>pacaran, jadian, dll halah nyocot</p>
+                    </div>
+                </div>
+ 
+                <!-- ── Baris 3: 2019 (kiri) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 3;">
+                    <div class="ph h-6 w-10" data-label="2019">
+                        <h2>2019</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2019">
+                        <img src="/assets/svg/halamanDua/film.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full"  data-label="Teks Cerita&#10;2019">
+                        <p>lamaran, tunangan, dll halah nyocot</p>
+                    </div>
+                </div>
+ 
+                <!-- ── Baris 4: 2021 (kanan) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 4;">
+                    <div class="ph h-6 w-10" data-label="2021">
+                        <h2>2019</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2021">
+                        <img src="/assets/svg/halamanDua/bungaMelati.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2021">
+                        <p>akad nikah, dll halah nyocot</p>
+                    </div>
+                </div>
+ 
+                <!-- ── Baris 5: 2025 (kiri) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 5;">
+                    <div class="ph h-6 w-10" data-label="2025">
+                        <h2>2025</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2025">
+                        <img src="/assets/svg/halamanDua/lope.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2025">
+                        <p>resepsi, dll halah nyocot</p>
+                    </div>
+                </div>
+ 
+                <!-- ── Baris 6: 2026 (kanan) ── -->
+                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 6;">
+                    <div class="ph h-6 w-10"  data-label="2026">
+                        <h2>2026</h2>
+                    </div>
+                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2026">
+                        <img src="/assets/svg/halamanDua/cincin.svg" alt="">
+                    </div>
+                    <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2026">
+                        <p>after party, dll halah nyocot</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+ 
+        <!-- ╔══════════════════════════════════════════════════════════╗
+             ║  SECTION 6 · CLOSING / PENUTUP                         ║
+             ║  Isi: background gelap + dekorasi + ayat Al-Qur'an      ║
+             ╚══════════════════════════════════════════════════════════╝ -->
+        <section class="relative w-full">
+ 
+            <!-- Background gelap + dekorasi floral -->
+            <div class="ph w-full aspect-[430/370]" data-label="BG Penutup&#10;(gambar full, background gelap)&#10;Dekorasi Floral">
+                <img src="/assets/svg/halamanDua/bg.svg" alt="">
+                <img src="/assets/svg/halamanDua/mawarDua.svg" alt="">
+            </div>
+ 
+            <!-- Teks overlay: ayat + terjemahan, center -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6">
+                <div class="ph w-full h-16" data-label="Teks Arab&#10;(Ayat Al-Qur'an)">
+                    <p>bacaan arab</p>
+                </div>
+                <div class="ph w-full h-12" data-label="Terjemahan Ayat&#10;+ Sumber (Az-Zariyat: 49)">
+                    <p>Terjemahan ayat + sumber</p>
+                </div>
+            </div>
+        </section>
+</main>
 </body>
 </html>
