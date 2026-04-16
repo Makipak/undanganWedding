@@ -35,13 +35,30 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'glacial';
+    src: url('/assets/font/glacial-indifference.regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'citadel';
+    src: url('/assets/font/CitadelScriptStdRegular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @theme {
     --font-vivaldi: 'Vivaldi', cursive;
     --font-lucida: 'Lucida', cursive;
     --font-codex: 'Codex', serif;
     --font-anaktoria: 'Anaktoria', cursive;
     --font-amoresa: 'Amoresa', cursive;
+    --font-glacial: 'Glacial Indifference', sans-serif;
+    --font-citadel: 'Citadel Script Std', cursive;
 }
+
 
 @layer base {
     :root {

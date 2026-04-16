@@ -47,59 +47,61 @@
             </div>
         </header>
 
-        <section class="w-full px-3 py-4">
+        <section class="w-full px-3 py-2">
  
             <!-- ── Mempelai Pria · Foto kiri (32%) | Info kanan (68%) ── -->
-            <div class="flex gap-2 items-stretch">
+            <div class="flex gap-2 items-stretch mt-4">
  
                 <!-- Foto portrait (≈ 32% lebar, rasio 3:4) -->
-                <div class="ph w-[32%] shrink-0 aspect-[3/4]">
-                    <img src="/assets/svg/halamanDua/mempelaiLaki.svg" alt="">
+                <div class="ph w-[32%] shrink-0 aspect-[3/5]">
+                    <img class="w-full h-full object-contain" src="/assets/svg/halamanDua/mempelaiLaki.svg" alt="">
                 </div>
  
                 <!-- Kolom info -->
                 <div class="flex-1 flex flex-col justify-center gap-2 py-1">
                     <!-- Nama lengkap -->
                     <div class="ph h-7 w-full">
-                        <h1>Nama Laki Laki</h1>
+                        <h1 class="font-codex text-[#585f26]">Taufan Bisma Ramadhan S.Log.</h1>
                     </div>
                     <!-- Subtitle orang tua / deskripsi -->
                     <div class="ph h-11 w-full">
-                        <h3>halah nyocot</h3>
+                        <h3 class="font-glacial text-[#7a7d35] text-xs">The beloved first son of <br>Mr. Agus Taufik N (almarhum) & Mrs. Istiqomah</h3>
                     </div>
                     <!-- Badge / tombol Instagram -->
-                    <div class="ph h-7 w-3/5 bg-green-400">
-                        <h5>ig orang</h5>
+                    <div class="ph h-4 w-2/5 bg-[#808b45] rounded-full flex items-center gap-1 px-2">
+                        <img class="w-3 h-3" src="/assets/svg/halamanDua/ig.svg" alt="">
+                        <a href=""><h5 class="font-anaktoria text-white text-[10px]">@ramanawing</h5></a>
                     </div>
                 </div>
             </div>
  
             <!-- ── Separator "&" (dekoratif, center) ── -->
-            <div class="flex items-center justify-center my-3">
-                <div class="ph w-12 h-12"">
-                    <h1>&</h1>
+            <div class="flex items-center justify-center my-0">
+                <div class="ph w-10 h-10 text-center">
+                    <h1 class="font-amoresa text-[#585f26] text-3xl">&</h1>
                 </div>
             </div>
  
             <!-- ── Mempelai Wanita · Info kiri (68%) | Foto kanan (32%) ── -->
-            <div class="flex gap-2 items-stretch">
+            <div class="flex gap-1 items-stretch -mt-6">
  
                 <!-- Kolom info -->
-                <div class="flex-1 flex flex-col justify-center gap-2 py-1">
+                <div class="flex-1 flex flex-col justify-center gap-2 py-1 translate-x-5">
                     <div class="ph h-7 w-full">
-                        <h1>Nama Perempuan</h1>
+                        <h1 class="font-codex text-[#585f26]">Thamia Farisatuddiniyah S.P.</h1>
                     </div>
                     <div class="ph h-11 w-full">
-                        <h2>halah nyocot</h2>
+                        <h3 class="font-glacial text-[#7a7d35] text-xs">The beloved daughter of <br>Mr. Azhari (almarhum) & Mrs. Neneng Kurnia N</h3>
                     </div>
-                    <div class="ph h-7 w-3/5 bg-green-400">
-                        <h5>ig laha daha</h5>
+                    <div class="ph h-4 w-2/5 bg-[#808b45] rounded-full flex items-center gap-1 px-2">
+                        <img class="w-3 h-3" src="/assets/svg/halamanDua/ig.svg" alt="">
+                        <a href=""><h5 class="font-anaktoria text-white text-[10px]">@miaaafd</h5></a>
                     </div>
                 </div>
  
                 <!-- Foto portrait (≈ 32% lebar, rasio 3:4) -->
-                <div class="ph w-[32%] shrink-0 aspect-3/4">
-                    <img src="/assets/svg/halamanDua/mempelaiPerempuan.svg" alt="">
+                <div class="ph w-[32%] shrink-0 aspect-3/5">
+                    <img class="w-30 h-full object-contain" src="/assets/svg/halamanDua/mempelaiPerempuan.svg" alt="">
                 </div>
  
             </div>
@@ -110,18 +112,16 @@
  
                 <!-- Tanggal besar dekoratif (≈ 35% lebar) -->
                 <div class="ph w-[35%] shrink-0 aspect-3/4">
-                    <p>06</p><br>
-                    <p>sept</p><br>
-                    <p>2026</p>
+                    <img class="w-full h-full object-contain scale-115" src="/assets/svg/halamanDua/tanggal.svg" alt="">
                 </div>
  
                 <!-- Jadwal acara (≈ 65% lebar, 3 baris + 2 pemisah) -->
-                <div class="flex-1 flex flex-col justify-around gap-1">
+                <div class="flex-1 flex flex-col justify-center gap-1">
 
                     <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
  
                     <!-- Akad Nikah -->
-                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 1&#10;(Akad)">
+                    <div class="font-anaktoria ph h-10 w-full flex items-center translate-x-7 text-[#7a7d35]" data-label="Waktu + Nama Acara 1&#10;(Akad)">
                         <p>16:00 - 17:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;akad</p>
                     </div>
  
@@ -129,7 +129,7 @@
                     <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
  
                     <!-- Resepsi -->
-                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 2&#10;(Reception)">
+                    <div class="font-anaktoria ph h-10 w-full flex items-center translate-x-7 text-[#7a7d35]" data-label="Waktu + Nama Acara 2&#10;(Reception)">
                         <p>18:30 - 20:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reception</p>
                     </div>
  
@@ -137,7 +137,7 @@
                     <div class="ph h-px w-full" data-label="─ garis pemisah ─"><hr class="border-[#ebae9e] border-t-2"></div>
  
                     <!-- After Party -->
-                    <div class="ph h-10 w-full" data-label="Waktu + Nama Acara 3&#10;(After Party)">
+                    <div class="font-anaktoria ph h-10 w-full flex items-center translate-x-6 text-[#7a7d35]" data-label="Waktu + Nama Acara 3&#10;(After Party)">
                         <p>20:00 - 21:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After Party</p>
                     </div>
 
@@ -151,8 +151,9 @@
  
             <!-- Heading "Location" (font script, center) -->
             <div class="flex justify-center mb-4">
-                <div class="ph h-10 w-[55%]"
-                data-label="Heading 'Location'&#10;(Font Dekoratif / Script)"><h1>Location</h1></div>
+                <div class="ph h-10 w-[55%]" data-label="Heading 'Location'&#10;(Font Dekoratif / Script)">
+                    <h1 class="font-citadel text-center">Location</h1>
+                </div>
             </div>
  
             <!-- Konten 2 kolom -->
@@ -162,21 +163,23 @@
                 <div class="w-[44%] shrink-0 flex flex-col gap-2">
                     <!-- Nama venue -->
                     <div class="ph h-8 w-full"  data-label="Nama Venue&#10;(e.g. Kebon Kubil)">
-                        <h2>Kebon Kubil</h2>
+                        <h2 class="font-anaktoria text-2xl">Kebon Kubil</h2>
                     </div>
                     <!-- Alamat lengkap -->
                     <div class="ph h-20 w-full" data-label="Alamat Lengkap&#10;Venue">
-                        <p>Jalan Bhayangkara Lingk. Hegar Alam No. 19 Cipocok Jaya</p>
+                        <p class="text-xs">Jalan Bhayangkara Lingk. Hegar Alam No. 19 Cipocok Jaya, Sumurpecung, Kec. Serang, Kota Serang, Banten </p>
                     </div>
-                    <!-- Tombol peta (pill / rounded) -->
-                    <div class="ph h-9 w-full rounded-full"
-                        data-label="📍 Tombol&#10;See On Maps"><p>See On Maps</p></div>
+                    
                 </div>
  
                 <!-- Foto venue landscape (kanan, ≈ 56%) -->
                 <div class="flex-1">
                     <div class="ph w-full aspect-[4/3]"data-label="Foto Venue&#10;(Landscape 4:3)">
                         <img src="/assets/svg/halamanDua/lokasi.svg" alt="">
+                    </div>
+                    <!-- Tombol peta (pill / rounded) -->
+                    <div class="ph h-9 w-full bg-[#808b45] rounded-full" data-label="📍 Tombol&#10;See On Maps">
+                        <p>See On Maps</p>
                     </div>
                 </div>
             </div>
