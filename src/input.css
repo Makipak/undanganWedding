@@ -44,7 +44,7 @@
 
 @font-face {
     font-family: 'citadel';
-    src: url('/assets/font/CitadelScriptStdRegular.woff2') format('woff2');
+    src: url('/assets/font/CitadelScriptStd.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -56,7 +56,7 @@
     --font-anaktoria: 'Anaktoria', cursive;
     --font-amoresa: 'Amoresa', cursive;
     --font-glacial: 'Glacial Indifference', sans-serif;
-    --font-citadel: 'Citadel Script Std', cursive;
+    --font-citadel: 'citadel', cursive;
 }
 
 
