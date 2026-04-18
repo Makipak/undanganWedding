@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="./dist/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
@@ -174,13 +177,13 @@
  
                 <!-- Foto venue landscape (kanan, ≈ 56%) -->
                 <div class="flex-1">
-                    <div class="ph w-full aspect-[4/3]"data-label="Foto Venue&#10;(Landscape 4:3)">
+                    <div class="ph w-full">
                         <img src="/assets/svg/halamanDua/lokasi.svg" alt="">
                     </div>
                     <!-- Tombol peta (pill / rounded) -->
-                    <div class="ph h-9 w-full bg-[#808b45] rounded-full" data-label="📍 Tombol&#10;See On Maps">
-                        <img src="/assets/svg/halamanDua/maps.svg" alt="">
-                        <p>See On Maps</p>
+                    <div class="ph h-7 w-full bg-[#808b45] rounded-full flex items-center justify-center gap-2 px-3 mt-3" data-label="📍 Tombol&#10;See On Maps">
+                        <img class="w-[10%]" src="/assets/svg/halamanDua/maps.svg" alt="">
+                        <p class="font-anaktoria text-white">See On Maps</p>
                     </div>
                 </div>
             </div>
@@ -189,126 +192,140 @@
  
             <!-- Heading "Our Story" (font script, center) -->
             <div class="flex justify-center mb-6">
-                <div class="ph h-10 w-[55%]" data-label="Heading 'Our Story'&#10;(Font Dekoratif / Script)">
-                    <h1>Our Story</h1>
+                <div class="ph h-10 w-[55%] flex items-center justify-center" data-label="Heading 'Our Story'&#10;(Font Dekoratif / Script)">
+                    <h1 class="font-citadel text-5xl text-[#5d794c]">Our Story</h1>
                 </div>
             </div>
  
             <!-- Timeline Grid -->
-            <div class="grid gap-y-4"
-                style="grid-template-columns: 5fr 3fr 5fr;">
+            <div class="grid gap-y-6"
+                style="grid-template-columns: 4fr 5fr 4fr;">
  
                 <!--
                 Dekorasi tengah (vine / ribbon).
                 grid-row: 1 / 7 = spans baris 1 sampai 6 inklusif.
                 Tingginya otomatis = total tinggi semua 6 baris + 5 gap.
                 -->
-                <div class="ph" style="grid-column: 2; grid-row: 1 / 7;" data-label="Dekorasi&#10;Tengah&#10;(Vine /&#10;Ribbon)&#10;full height">
-                    <img src="/assets/svg/halamanDua/taliLurus.svg" alt="">
+                <div class="ph h-full bg-no-repeat bg-center" style=" grid-column: 2;grid-row: 1 / 7; padding: 0 4px" data-label="Dekorasi&#10;Tengah&#10;(Vine /&#10;Ribbon)&#10;full height">
+                    <img src="assets/svg/halamanDua/taliLurus.svg" style="display: block; width: 100%; height: 100%; object-fit: fill;" alt="">
                 </div>
  
                 <!-- ── Baris 1: 2011 (kiri) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 1;">
-                    <div class="ph h-6 w-10" data-label="2011">
+                    <div class="flex items-center justify-between">
+                        <div class="ph h-6 w-10" data-label="2011">
                         <h2>2011</h2>
                     </div>
-                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2011">
+                    <div class="ph aspect-[4/3] w-[80%]" data-label="Foto 2011">
                         <img src="/assets/svg/halamanDua/buku.svg" alt="">
                     </div>
+                    </div>
                     <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2011">
-                        <p>pertemuan dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Pertemuan pertama kami saat duduk di kelas 4 SD dan kami saling jatuh cinta</p>
                     </div>
                 </div>
  
                 <!-- ── Baris 2: 2016 (kanan) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 2;">
-                    <div class="ph h-6 w-10" data-label="2016">
+                    <div class="flex items-center justify-between">
+                         <div class="ph h-6 w-10" data-label="2016">
                         <h2>2016</h2>
                     </div>
-                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2016">
+                    <div class="ph aspect-[4/3] w-[80%]" data-label="Foto 2016">
                         <img src="/assets/svg/halamanDua/gelas.svg" alt="">
                     </div>
+                    </div>
+                   
                     <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2016">
-                        <p>pacaran, jadian, dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Setelah sekian lama tidak bertemu akhirnya kembali bertemu saat acara reunian dan mulai bertukar kontak</p>
                     </div>
                 </div>
  
                 <!-- ── Baris 3: 2019 (kiri) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 3;">
-                    <div class="ph h-6 w-10" data-label="2019">
+                    <div class="flex items-center justify-between">
+                        <div class="ph h-6 w-10" data-label="2019">
                         <h2>2019</h2>
                     </div>
                     <div class="ph aspect-[4/3] w-full" data-label="Foto 2019">
                         <img src="/assets/svg/halamanDua/film.svg" alt="">
                     </div>
+                    </div>
+                    
                     <div class="ph h-14 w-full"  data-label="Teks Cerita&#10;2019">
-                        <p>lamaran, tunangan, dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Sejak terakhir kali bertemu kita berteman baik dan saling berbagi cerita. Untuk pertama kalinya kami berdua bertemu kembali di Jakarta dan menonton bioskop.</p>
                     </div>
                 </div>
  
                 <!-- ── Baris 4: 2021 (kanan) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 4;">
-                    <div class="ph h-6 w-10" data-label="2021">
-                        <h2>2019</h2>
+                    <div class="flex items-center justify-between">
+                        <div class="ph h-6 w-10" data-label="2021">
+                        <h2>2021</h2>
                     </div>
-                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2021">
+                    <div class="ph aspect-[4/3] w-[55%]" data-label="Foto 2021">
                         <img src="/assets/svg/halamanDua/bungaMelati.svg" alt="">
                     </div>
+                    </div>
+                    
                     <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2021">
-                        <p>akad nikah, dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Pada tahun ini kami mulai sering bertemu, rama selalu membantu dan menemani mia saat harus menjalani magang di Jakarta</p>
                     </div>
                 </div>
  
                 <!-- ── Baris 5: 2025 (kiri) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 5;">
-                    <div class="ph h-6 w-10" data-label="2025">
+                    <div class="flex items-center justify-between">
+                        <div class="ph h-6 w-10" data-label="2025">
                         <h2>2025</h2>
                     </div>
-                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2025">
+                    <div class="ph aspect-[4/3] w-[50%]" data-label="Foto 2025">
                         <img src="/assets/svg/halamanDua/lope.svg" alt="">
                     </div>
+                    </div>
+                    
                     <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2025">
-                        <p>resepsi, dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Setelah 4 tahun memiliki hubungan yang baik dan menjadi tempat berbagi kisah. kami memutuskan untuk kejenjang yang lebih serius dan melangsungkan lamaran</p>
                     </div>
                 </div>
  
                 <!-- ── Baris 6: 2026 (kanan) ── -->
                 <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 6;">
-                    <div class="ph h-6 w-10"  data-label="2026">
-                        <h2>2026</h2>
+                    <div class="flex items-center justify-between">
+                        <div class="ph h-6 w-10"  data-label="2026">
+                            <h2>2026</h2>
+                        </div>
+                        <div class="ph aspect-[4/3] w-[50%]" data-label="Foto 2026">
+                            <img src="/assets/svg/halamanDua/cincin.svg" alt="">
+                        </div>
                     </div>
-                    <div class="ph aspect-[4/3] w-full" data-label="Foto 2026">
-                        <img src="/assets/svg/halamanDua/cincin.svg" alt="">
-                    </div>
+                    
                     <div class="ph h-14 w-full" data-label="Teks Cerita&#10;2026">
-                        <p>after party, dll halah nyocot</p>
+                        <p class="font-glacial text-[12px] text-[#585f26]">Hari dimana kita mengikat janji suci, bukan akhir dari perjalanan kami. Tetapi kisah lainnya yang baru saja dimulai untuk diarungi bersama selamanya</p>
                     </div>
                 </div>
             </div>
         </section>
  
- 
-        <!-- ╔══════════════════════════════════════════════════════════╗
-             ║  SECTION 6 · CLOSING / PENUTUP                         ║
-             ║  Isi: background gelap + dekorasi + ayat Al-Qur'an      ║
-             ╚══════════════════════════════════════════════════════════╝ -->
         <section class="relative w-full">
  
             <!-- Background gelap + dekorasi floral -->
-            <div class="ph w-full aspect-[430/370]" data-label="BG Penutup&#10;(gambar full, background gelap)&#10;Dekorasi Floral">
-                <img src="/assets/svg/halamanDua/bg.svg" alt="">
-                <img src="/assets/svg/halamanDua/mawarDua.svg" alt="">
+            <div class="relative w-full aspect-[430/370]" data-label="BG Penutup&#10;(gambar full, background gelap)&#10;Dekorasi Floral">
+                <img class="absolute inset-0 w-full h-full object-cover" src="/assets/svg/halamanDua/bg.svg" alt="">
+                <img class="absolute inset-0 w-30 top-0 left-0 translate-y-30" src="/assets/svg/halamanDua/mawarDua.svg" alt="">
+
+                <!-- Teks overlay: ayat + terjemahan, center -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 mt-10 scale-60">
+                    <div class="ph w-full h-7 flex justify-center items-center" data-label="Teks Arab&#10;(Ayat Al-Qur'an)">
+                        <p class="font-amiri text-center text-[#585f26]">وَمِنْ كُلِّ شَيْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُوْنَ</p>
+                    </div>
+                    <div class="ph w-60 h-12" data-label="Terjemahan Ayat&#10;+ Sumber (Az-Zariyat: 49)">
+                        <p class="font-glacial text-center text-[12px] text-[#7a7d35]">“Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah)” Az-Zariyat:49</p>
+                    </div>
+                </div>
             </div>
  
-            <!-- Teks overlay: ayat + terjemahan, center -->
-            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6">
-                <div class="ph w-full h-16" data-label="Teks Arab&#10;(Ayat Al-Qur'an)">
-                    <p>bacaan arab</p>
-                </div>
-                <div class="ph w-full h-12" data-label="Terjemahan Ayat&#10;+ Sumber (Az-Zariyat: 49)">
-                    <p>Terjemahan ayat + sumber</p>
-                </div>
-            </div>
+            
         </section>
 </main>
 </body>
