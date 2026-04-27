@@ -19,35 +19,66 @@
 <body>
 <main class="page">
     <!-- bagian atas -->
-        <header class="relative w-full h-72 overflow-hidden">
-            <div class="w-25 h-15 absolute translate-x-2">
-                <img src="/assets/svg/halamanDua/lampuKiri.svg" alt="">
+        <!--
+            Baseline: Samsung Galaxy S8+ = 360px lebar, h-72 = 288px tinggi.
+            aspect-ratio 360/288 menjaga proporsi di semua ukuran layar.
+            Semua ukuran dan posisi asset dihitung dalam % dari 360x288.
+        -->
+        <header class="relative w-full overflow-hidden" style="aspect-ratio: 360 / 288;">
+
+            <!-- Lampu kiri: w-25=100px(27.8%), left translate-x-2=8px(2.2%), top 0 -->
+            <div class="absolute" style="top:0; left:2.2%; width:27.8%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/lampuKiri.svg" alt="">
             </div>
-            <div class="w-25 h-50 absolute right-0">
-                <img src="/assets/svg/halamanDua/lampuKanan.svg" alt="">
+
+            <!-- Lampu kanan: w-25=100px(27.8%), right 0, top 0 -->
+            <div class="absolute" style="top:0; right:0; width:27.8%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/lampuKanan.svg" alt="">
             </div>
-            <div class="w-20 h-auto absolute left-0 translate-y-30 translate-x-15">
-                <img class="-rotate-22" src="/assets/svg/halamanDua/bungaKiri.svg" alt="">
+
+            <!-- Daun kiri: w-25=100px(27.8%), top 0, left 0 -->
+            <div class="absolute" style="top:0; left:0; width:27.8%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/daunKiri.svg" alt="">
             </div>
-            <div class="w-25 h-auto absolute right-0 translate-y-32 -translate-x-14">
-                <img src="/assets/svg/halamanDua/bungaKanan.svg" alt="">
+
+            <!-- Daun kanan: w-25=100px(27.8%), top 0, right 0 -->
+            <div class="absolute" style="top:0; right:0; width:27.8%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/daunKanan.svg" alt="">
             </div>
-            <div class="w-55 h-auto absolute left-1/2 -translate-x-26 -top-4">
-                <img src="/assets/svg/halamanDua/daunAtas.svg" alt="">
+
+            <!-- Daun atas: w-55=220px(61.1%), -top-4=-16px(-5.6%), center -->
+            <div class="absolute" style="top:-5.6%; left:50%; transform:translateX(-50%); width:61.1%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/daunAtas.svg" alt="">
             </div>
-            <div class="w-40 h-auto rounded-full absolute left-1/2 -translate-x-20 translate-y-6">
-                <img src="/assets/svg/halamanDua/main.svg" alt="">
-                <h1 class="font-amoresa absolute text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white -rotate-9"> <span class="whitespace-nowrap">We're Getting </span> <br><span class="block">Married</span></h1>
+
+            <!-- Bunga kiri: w-20=80px(22.2%), translate-y-30=120px(41.7%), translate-x-15=60px(16.7%) -->
+            <div class="absolute" style="top:41.7%; left:16.7%; width:22.2%;">
+                <img class="w-full h-auto -rotate-22" src="/assets/svg/halamanDua/bungaKiri.svg" alt="">
             </div>
-            <div class="w-25 h-60 absolute left-0">
-                <img src="/assets/svg/halamanDua/daunKiri.svg" alt="">
+
+            <!-- Bunga kanan: w-25=100px(27.8%), translate-y-32=128px(44.4%), -translate-x-14=56px -> right:15.6% -->
+            <div class="absolute" style="top:44.4%; right:15.6%; width:27.8%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/bungaKanan.svg" alt="">
             </div>
-            <div class="w-25 h-60 absolute right-0">
-                <img src="/assets/svg/halamanDua/daunKanan.svg" alt="">
+
+            <!-- Lingkaran utama: w-40=160px(44.4%), translate-y-6=24px(8.3%), center -->
+            <div class="absolute" style="top:8.3%; left:50%; transform:translateX(-50%); width:44.4%;">
+                <div class="relative">
+                    <img class="w-full h-auto" src="/assets/svg/halamanDua/main.svg" alt="">
+                    <!-- font-size pakai vw agar teks ikut scale bersama container -->
+                    <h1 class="font-amoresa absolute inset-0 flex flex-col items-center justify-center text-white text-center leading-tight -rotate-9"
+                        style="font-size: clamp(8px, 3.5vw, 16px);">
+                        <span class="whitespace-nowrap">We're Getting</span>
+                        <span>Married</span>
+                    </h1>
+                </div>
             </div>
-            <div class="w-45 h-auto absolute left-1/2 -translate-x-23 translate-y-52">
-                <img src="/assets/svg/halamanDua/taliBawah.svg" alt="">
+
+            <!-- Tali bawah: w-45=180px(50%), translate-y-52=208px(72.2%), center -->
+            <div class="absolute" style="top:72.2%; left:50%; transform:translateX(-50%); width:50%;">
+                <img class="w-full h-auto" src="/assets/svg/halamanDua/taliBawah.svg" alt="">
             </div>
+
         </header>
 
         <section class="w-full px-3 py-2">
