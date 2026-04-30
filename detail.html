@@ -14,11 +14,11 @@
 </head>
 <body>
   <main class="page">
-    <section class="relative w-full overflow-hidden min-h-screen">
-      <div class="w-full pt-25">
+    <section class="relative w-full overflow-hidden">
+      <div class="w-full pt-25 pb-8">
         <div class="relative max-w-[500px] mx-auto scale-130">
-        <div class="grid grid-cols-5 gap-1 w-full"
-            style="grid-template-rows: repeat(6, calc((min(500px, 100vw) - 4px) / 5));">
+        <div class="grid gap-1 w-full"
+            style="grid-template-columns: 1fr 1.3fr 1fr 1fr 1fr; grid-template-rows: repeat(6, calc((min(500px, 100vw) - 4px) / 5));">
 
             <!-- 1 — Foto besar kiri atas (portrait) -->
             <div class="col-span-2 col-start-2 row-span-2 bg-[#c8ca8e] relative z-[2]">
@@ -33,7 +33,7 @@
             <!-- 4 — placeholder kosong untuk mempertahankan posisi row 5 di grid -->
             <div class="col-span-3 col-start-2 row-start-3 bg-[#c8ca8e] relative z-[2]"></div>
 
-            <!-- 5 — Foto kiri bawah (portrait, span 2 baris) -->
+            <!-- 5 — Foto kiri bawah (portrait, sedikit lebih lebar) -->
             <div class="row-span-2 col-start-2 row-start-4 bg-[#c8ca8e] relative z-[2]"></div>
 
             <!-- 6 — Foto tengah bawah baris 1 -->
@@ -58,16 +58,16 @@
                       min-height: 8px;">
 
           <!-- [TEXT MARKER] "Album" — sudut kiri atas section -->
-          <span class="absolute top-0 left-0 z-[3] italic text-[#4a4a22] text-[44px] leading-none opacity-90 pointer-events-none select-none"
-                style="font-family: cursive; transform: translate(-4px, -2px);">Album</span>
+          <span class="absolute top-0 z-[3] italic text-[#4a4a22] text-[44px] leading-none opacity-90 pointer-events-none select-none"
+                style="font-family: cursive; left: calc(100% / 5);">Album</span>
 
           <!-- [TEXT MARKER] "Og" — kanan tengah (cols 4-5, rows 1-4, area hitam) -->
-          <span class="absolute right-0 z-[3] italic text-[#4a4a22] text-[56px] opacity-90 pointer-events-none select-none"
-                style="font-family: cursive; top: calc((2 / 6) * 100%);">Og</span>
+          <span class="absolute z-[3] italic text-[#4a4a22] text-[56px] opacity-90 pointer-events-none select-none"
+                style="font-family: cursive; top: calc((1.5 / 6) * 100%); left: calc(3 / 5 * 100%);">Of</span>
 
           <!-- [TEXT MARKER] "Us" — kiri, overlap shimmer bawah -->
-          <span class="absolute left-0 z-[3] italic text-[#4a4a22] text-[44px] leading-none opacity-90 pointer-events-none select-none"
-                style="font-family: cursive; top: calc((3 / 6) * 100%); transform: translateY(-20%);">Us</span>
+          <span class="absolute z-[3] italic text-[#4a4a22] text-[44px] leading-none opacity-90 pointer-events-none select-none"
+                style="font-family: cursive; top: calc((2.75 / 6) * 100%); left: calc(1 / 5 * 100%);">Us</span>
         </div>
       </div>
     </section>
@@ -211,7 +211,7 @@
       </div>
 
       <!-- Hashtag — kiri bawah -->
-      <p class="absolute bottom-6 left-6 z-[2] text-[#8a8a5a] text-sm tracking-wide">
+      <p class="absolute bottom-1 left-0 right-0 z-[2] text-center text-[#8a8a5a] text-sm tracking-wide">
         #seRAMAnyabersamaMia
       </p>
 
