@@ -43,8 +43,22 @@
 }
 
 @font-face {
+    font-family: 'blosta';
+    src: url('/assets/font/BlostaScript.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'citadel';
     src: url('/assets/font/CitadelScriptStd.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'calgary';
+    src: url('/assets/font/Calgary.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -57,7 +71,8 @@
     --font-amoresa: 'Amoresa', cursive;
     --font-glacial: 'glacial', sans-serif;
     --font-citadel: 'citadel', cursive;
-    --font-amiri: 'Amiri', serif;
+    --font-blosta: 'blosta', serif;
+    --font-calgary: 'calgary', cursive;
 }
 
 
