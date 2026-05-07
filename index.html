@@ -10,6 +10,16 @@
     <title>Undangan Ah momen</title>
 </head>
 <body>
+    <!-- SVG filter untuk efek angin pada bunga (di-reference via CSS filter: url(#wind)) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <filter id="wind" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.015 0.02" numOctaves="2" seed="3" result="turb"/>
+                <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
+
     <div id="stateSatu" class="relative flex items-center justify-center h-screen">
         <h1 class="font-vivaldi text-4xl text-[#585f26] mb-65">You're Invited!</h1>
 
@@ -56,10 +66,10 @@
             </div>
         </div>
         
-        <div class="w-35 h-25 absolute flex items-center justify-center">
+        <div id="envelope" class="w-35 h-25 absolute flex items-center justify-center">
             <img src="assets/svg/halaman satu/amplopTutup.svg" alt="">
             <img class="w-7 h-auto absolute translate-y-2" src="assets/svg/halaman satu/pin.svg" alt="">
-            <a href="" class="absolute">
+            <a id="openInvitationBtn" href="" class="absolute">
                 <p class="font-lucida text-[7px] translate-y-9 text-white">Open Invitation</p>
             </a>
         </div>
@@ -68,15 +78,10 @@
     </div>
 
     <!-- state dua -->
-    <div id="stateDua" class="relative">
-    
-        <!-- ============================================================
-            BAGIAN 1: Ornamen amplop terbuka (tinggi penuh satu layar)
-            Struktur layer identik dengan stateSatu + tambahan stateDua.
-            ============================================================ -->
-        <div class="relative flex items-center justify-center h-screen overflow-hidden">
-    
-            <!-- Layer 1: Pohon latar — aset sama seperti stateSatu -->
+    <div id="stateDua" class="page page-invitation">
+        <!-- 1. Hero floral envelope -->
+        <section class="relative flex items-center justify-center h-screen overflow-hidden">
+            <!-- layer awal - pohon (sama spt stateSatu) + janur (tambahan stateDua) -->
             <div class="absolute flex items-center justify-center">
                 <div class="w-50 h-auto absolute translate-x-13 mb-7">
                     <img src="assets/svg/halaman satu/pohonKanan.svg" alt="">
@@ -88,18 +93,15 @@
                     <img src="assets/svg/halaman satu/pohonTengah.svg" alt="">
                 </div>
             </div>
-    
-            <!-- Layer 2: Background overlay — aset sama seperti stateSatu -->
+
+            <!-- layer dua - bg panel (sama spt stateSatu) + layerAmplop -->
             <div class="absolute flex items-center justify-center">
                 <div class="w-60 h-auto absolute">
                     <img src="assets/svg/halaman satu/bgPutih.svg" alt="">
                 </div>
-                <div class="w-55 h-auto absolute">
-                    <img src="assets/svg/halaman satu/bg.svg" alt="">
-                </div>
             </div>
-    
-            <!-- Layer 3: Ornamen ground — aset sama seperti stateSatu -->
+
+            <!-- layer tiga - dekorasi (sama spt stateSatu) + objek tambahan stateDua -->
             <div class="absolute flex items-center justify-center">
                 <div class="w-30 h-auto absolute -translate-x-25 translate-y-10">
                     <img src="assets/svg/halaman satu/potKiri.svg" alt="">
@@ -110,147 +112,109 @@
                 <div class="w-35 h-auto absolute translate-x-25 translate-y-20">
                     <img src="assets/svg/halaman satu/batuKanan.svg" alt="">
                 </div>
+                <div class="w-30 h-auto absolute translate-x-28 -translate-y-17 scale-60">
+                    <img src="assets/svg/halaman satu/stateDua/janurKanan.svg" alt="">
+                </div>
+                <div class="w-30 h-auto absolute -translate-x-28 -translate-y-17 scale-60">
+                    <img src="assets/svg/halaman satu/stateDua/janurKiri.svg" alt="">
+                </div>
                 <div class="w-20 h-auto absolute -translate-x-30 translate-y-5">
                     <img src="assets/svg/halaman satu/bungaKiri.svg" alt="">
                 </div>
+                <!-- tambahan stateDua -->
+                <div class="w-20 h-auto absolute -translate-x-30 translate-y-18">
+                    <img src="assets/svg/halaman satu/stateDua/kol.svg" alt="">
+                </div>
+            </div>
+
+            <!-- amplop buka - tengah (ganti amplopTutup+pin) -->
+            <div id="amplopBukaWrapper" class="absolute -mt-20 scale-88">
+                <div class="w-35 relative">
+                    <img src="assets/svg/halaman satu/stateDua/amplopBuka.svg" alt="" class="w-full z-0 scale-130">
+                    <img src="assets/svg/halaman satu/stateDua/objekTengah.svg" alt="" class="absolute z-10 w-28 rotate-7" style="left: 60%; top: -70px; transform: translateX(-50%)">
+                    <img src="assets/svg/halaman satu/stateDua/objekKiri.svg" alt="" class="absolute z-10 w-25 scale-80" style="left: -37px; top: -80px;">
+                    <img src="assets/svg/halaman satu/stateDua/bungaPutih.svg" alt="" class="absolute z-10 w-22" style="right: -40px; top: -20px;">
+                    <img src="assets/svg/halaman satu/stateDua/bungaPink.svg" alt="" class="absolute z-10 w-24" style="left: 60%; top: 50px; transform: translateX(-50%)">
+                    <img src="assets/svg/halaman satu/stateDua/layerAmplop.svg" alt="" class="absolute top-6 left-0 w-full h-full scale-120 z-20">
+                    <img src="assets/svg/halaman satu/stateDua/bungaijo.svg" alt="" class="absolute z-25 w-20" style="right: -60px; bottom: -80px;">
+                </div>
+            </div>
+
+            <!-- bungaKanan - di depan layerAmplop & bungaijo -->
+            <div class="absolute flex items-center justify-center">
                 <div class="w-30 h-auto absolute translate-x-30 translate-y-7">
                     <img src="assets/svg/halaman satu/bungaKanan.svg" alt="">
                 </div>
             </div>
+        </section>
+
+        <main class="mx-auto flex max-w-md flex-col items-center px-6">
+        <!-- 2. Reveal -->
+        <section class="-mt-24 w-full text-center">
+            <h2 class="font-citadel text-5xl text-[#585f26]">Reveal</h2>
+            <p class="font-glacial mt-2 text-[10px] tracking-[0.4em] text-[#7a7d35] uppercase">
+            Scratch to discover the date
+            </p>
     
-            <!-- Layer 4: Ranting/vine tambahan (stateDua)
-                Membingkai amplop dari kiri dan kanan secara diagonal.
-                Posisi & ukuran disesuaikan dengan aset masing-masing. -->
-            <div class="absolute top-0 left-0 w-1/2 h-3/4">
-                <img class="w-full h-full object-contain object-left-top"
-                    src="assets/svg/halaman satu/stateDua/janurkiri.svg" alt="">
-            </div>
-            <div class="absolute top-5 right-0 w-1/2 h-3/4">
-                <img class="w-full h-full object-contain object-right-top"
-                    src="assets/svg/halaman satu/stateDua/janurKanan.svg" alt="">
-            </div>
-    
-            <!-- Layer 5: Pot kanan (stateDua) — sisi kanan bawah layar -->
-            <div class="absolute right-0 bottom-0 w-28 h-auto">
-                <img src="assets/svg/halaman satu/stateDua/bungaijo.svg" alt="">
-            </div>
-    
-            <!-- Layer 6: Amplop terbuka + nama pasangan + dekorasi
-                Seluruh grup ini diangkat sedikit dari tengah layar
-                agar nama pasangan muncul di area atas amplop.
-                Sesuaikan nilai -translate-y jika posisi perlu dikoreksi. -->
-            <div class="absolute flex flex-col items-center -translate-y-8">
-    
-                <!-- Nama pasangan (kaligrafi, tampil di atas flap amplop) -->
-                <div class="w-44 h-auto">
-                    <img src="assets/svg/halaman satu/stateDua/namaPasangan.svg" alt="">
+            <!-- 3 scratch coins (foil: ./assets/coin-foil.png, content: 6 / 9 / 2026) -->
+            <div class="text-[#7a7d35] mt-8 grid grid-cols-3 gap-4 text-">
+                <div class="scratch-coin" data-coin>
+                    <span class="coin-content text-5xl">6</span>
+                    <canvas aria-hidden="true"></canvas>
                 </div>
-    
-                <!-- Amplop terbuka + pin -->
-                <div class="w-35 h-25 relative flex items-center justify-center mt-2">
-                    <img src="assets/svg/halaman satu/stateDua/amplopTerbuka.svg" alt="">
-                    <img class="w-7 h-auto absolute translate-y-2"
-                        src="assets/svg/halaman satu/pin.svg" alt="">
+                <div class="scratch-coin" data-coin>
+                    <span class="coin-content text-3xl">Sept</span>
+                    <canvas aria-hidden="true"></canvas>
                 </div>
-    
-                <!-- Dekorasi kaligrafi pada amplop (tampil di bawah flap) -->
-                <div class="w-32 h-auto mt-1">
-                    <img src="assets/svg/halaman satu/stateDua/dekorasiAmplop.svg" alt="">
-                </div>
-    
-            </div>
-    
-        </div>
-    
-    
-        <!-- ============================================================
-            BAGIAN 2: Teks kaligrafi script (tengah halaman)
-            Lebar 60% dari layar, mengacu proporsi SVG (x ~1483–2088
-            dari total lebar 3512 = ±17% konten, tapi secara visual
-            lebih lebar — gunakan 60% sebagai titik awal).
-            ============================================================ -->
-        <div class="flex items-center justify-center py-12 px-6">
-            <div class="w-[60%]">
-                <img class="w-full h-auto"
-                    src="assets/svg/halaman satu/stateDua/teksKaligrafiTengah.svg" alt="">
-            </div>
-        </div>
-    
-    
-        <!-- ============================================================
-            BAGIAN 3: Teks undangan (serif, paragraf)
-            Lebar penuh dengan padding horizontal secukupnya.
-            ============================================================ -->
-        <div class="flex items-center justify-center py-6 px-8">
-            <div class="w-full">
-                <img class="w-full h-auto"
-                    src="assets/svg/halaman satu/stateDua/teksUndangan.svg" alt="">
-            </div>
-        </div>
-    
-    
-        <!-- ============================================================
-            BAGIAN 4: Tiga foto persegi (3 kolom, rata kiri-kanan)
-            Margin horizontal 14% mengikuti proporsi SVG:
-            foto mulai x 502 dan berakhir x 3006 dari total 3512
-            (margin kiri ≈ 14.3%, margin kanan ≈ 14.4%).
-            Jarak antar foto ≈ 1% lebar kanvas → gap-1.
-            ============================================================ -->
-        <div class="flex justify-center items-stretch gap-1 px-[14%] py-8">
-            <div class="flex-1 aspect-square overflow-hidden">
-                <img class="w-full h-full object-cover"
-                    src="assets/svg/halaman satu/stateDua/foto1.jpg" alt="">
-            </div>
-            <div class="flex-1 aspect-square overflow-hidden">
-                <img class="w-full h-full object-cover"
-                    src="assets/svg/halaman satu/stateDua/foto2.jpg" alt="">
-            </div>
-            <div class="flex-1 aspect-square overflow-hidden">
-                <img class="w-full h-full object-cover"
-                    src="assets/svg/halaman satu/stateDua/foto3.jpg" alt="">
-            </div>
-        </div>
-    
-    
-        <!-- ============================================================
-            BAGIAN 5: Konten informasi acara
-            Area di antara tiga foto dan section footer (y 4080–5121
-            dalam SVG). Diisi dengan aset detail acara/undangan.
-            ============================================================ -->
-        <div class="flex items-center justify-center py-12 px-6">
-            <div class="w-full">
-                <img class="w-full h-auto"
-                    src="assets/svg/halaman satu/stateDua/infoAcara.svg" alt="">
-            </div>
-        </div>
-    
-    
-        <!-- ============================================================
-            BAGIAN 6: Footer dekorasi + teks kaligrafi hashtag
-            Background footer mendefinisikan tinggi section.
-            Teks hashtag diposisikan overlay di atas background.
-            Proporsi SVG: bg mulai y 5300, hashtag y 5121–5479
-            (hashtag berada di atas background secara overlap).
-            ============================================================ -->
-        <div class="relative w-full">
-    
-            <!-- Background footer (mendefinisikan tinggi section ini) -->
-            <img class="w-full h-auto block"
-                src="assets/svg/halaman satu/stateDua/bgFooter.svg" alt="">
-    
-            <!-- Teks kaligrafi hashtag — overlay di atas background
-                Lebar 70% dari layar, vertikal berada di tengah atas background.
-                Sesuaikan top/translate jika posisi perlu dikoreksi. -->
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-[70%] -translate-y-4">
-                    <img class="w-full h-auto"
-                        src="assets/svg/halaman satu/stateDua/hashtag.svg" alt="">
+                <div class="scratch-coin" data-coin>
+                    <span class="coin-content text-3xl">2026</span>
+                    <canvas aria-hidden="true"></canvas>
                 </div>
             </div>
+
+            <!-- 3. Save The Date -->
+            <h2 class="font-citadel text-[26px] text-[#585f26] mt-8">
+                Save The Date<span class="text-[#585f26]">!</span>
+            </h2>
+        </section>
     
-        </div>
+        <!-- 4. Countdown -->
+        <section class="mt-10 w-full text-center pb-12">
+            <h2 class="font-citadel text-5xl text-[#585f26]">Countdown</h2>
     
+            <!-- Numbers: 126 : 12 : 37 : 42 -->
+            <div class="mt-6 flex items-center justify-center gap-3 text-[#585f26]">
+            <span class="text-5xl font-light tabular-nums" id="cd-days">126</span>
+            <span class="text-4xl">:</span>
+            <span class="text-5xl font-light tabular-nums" id="cd-hours">12</span>
+            <span class="text-4xl">:</span>
+            <span class="text-5xl font-light tabular-nums" id="cd-minutes">37</span>
+            <span class="text-4xl">:</span>
+            <span class="text-5xl font-light tabular-nums" id="cd-seconds">42</span>
+            </div>
+
+            <!-- Labels: HARI JAM MNT DTK -->
+            <div class="mt-3 flex items-center justify-center gap-3 text-xs tracking-[0.3em] text-[#585f26] uppercase">
+            <span class="w-12 text-center">Hari</span>
+            <span class="w-2"></span>
+            <span class="w-12 text-center">Jam</span>
+            <span class="w-2"></span>
+            <span class="w-12 text-center">Mnt</span>
+            <span class="w-2"></span>
+            <span class="w-12 text-center">Dtk</span>
+            </div>
+        </section>
+
+        <!-- Tombol ke halaman utama undangan -->
+        <section class="w-full text-center pb-16 pt-4">
+            <a href="main.html"
+               class="inline-block font-glacial tracking-[0.3em] uppercase text-sm text-[#f9f5f0] bg-[#585f26] px-10 py-3 rounded-full hover:bg-[#5d794c] transition-colors duration-300">
+                Buka Undangan
+            </a>
+        </section>
+
+        </main>
     </div>
-    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

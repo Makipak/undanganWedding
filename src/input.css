@@ -89,4 +89,34 @@
 
         background-color: var(--bg);
     }
+
+    .font-calgary {
+        -webkit-text-stroke: 0.4px var(--bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .scratch-coin {
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+    }
+
+    .scratch-coin .coin-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scratch-coin canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        cursor: crosshair;
+    }
 }
