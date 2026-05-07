@@ -1,0 +1,4 @@
+const SUPABASE_URL = 'https://bcdukrmyktdvsorpzhfu.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjZHVrcm15a3RkdnNvcnB6aGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTE3OTUsImV4cCI6MjA5MDk2Nzc5NX0.65_gtSQ1bfUsR1K5lCSHoFmJ1Z9Ko9HmkE7unTDx2T4'
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)

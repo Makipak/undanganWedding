@@ -35,13 +35,46 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'glacial';
+    src: url('/assets/font/glacial-indifference.regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'blosta';
+    src: url('/assets/font/BlostaScript.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'citadel';
+    src: url('/assets/font/CitadelScriptStd.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'calgary';
+    src: url('/assets/font/Calgary.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @theme {
     --font-vivaldi: 'Vivaldi', cursive;
     --font-lucida: 'Lucida', cursive;
     --font-codex: 'Codex', serif;
     --font-anaktoria: 'Anaktoria', cursive;
     --font-amoresa: 'Amoresa', cursive;
+    --font-glacial: 'glacial', sans-serif;
+    --font-citadel: 'citadel', cursive;
+    --font-blosta: 'blosta', serif;
+    --font-calgary: 'calgary', cursive;
 }
+
 
 @layer base {
     :root {
@@ -55,5 +88,35 @@
         overflow-x: hidden;
 
         background-color: var(--bg);
+    }
+
+    .font-calgary {
+        -webkit-text-stroke: 0.4px var(--bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .scratch-coin {
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+    }
+
+    .scratch-coin .coin-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scratch-coin canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        cursor: crosshair;
     }
 }
