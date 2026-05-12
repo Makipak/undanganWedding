@@ -10,7 +10,7 @@
 // ============================================
 const CONFIG = {
   // Path ke foil image (kalau ga ada → fallback ke gradient silver)
-  FOIL_SRC: 'assets/img/coin.png',
+  FOIL_SRC: 'assets/img/halamanSatu/coin.png',
 
   // Brush size scratch (% dari width coin)
   BRUSH_RATIO: 0.12,
