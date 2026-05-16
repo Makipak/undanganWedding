@@ -27,43 +27,46 @@
         <header class="relative w-full overflow-hidden" style="aspect-ratio: 360 / 288;">
 
             <!-- Lampu kiri: w-25=100px(27.8%), left translate-x-2=8px(2.2%), top 0 -->
-            <div class="absolute" style="top:0; left:2.2%; width:27.8%;">
+            <div id="lampuKiri" class="absolute" style="top:0; left:2.2%; width:27.8%;">
                 <img class="w-full h-auto" src="/assets/img/halamanDua/lampuKiri.webp" alt="">
             </div>
 
             <!-- Lampu kanan: w-25=100px(27.8%), right 0, top 0 -->
-            <div class="absolute" style="top:0; right:0; width:27.8%;">
+            <div id="lampuKanan" class="absolute" style="top:0; right:0; width:27.8%;">
                 <img class="w-full h-auto" src="/assets/img/halamanDua/lampuKanan.webp" alt="">
             </div>
 
             <!-- Daun kiri: w-25=100px(27.8%), top 0, left 0 -->
-            <div class="absolute" style="top:0; left:0; width:27.8%;">
+            <div id="daunKiri" class="absolute" style="top:0; left:0; width:27.8%;">
                 <img class="w-full h-auto" src="/assets/img/halamanDua/daunKiri.webp" alt="">
             </div>
 
             <!-- Daun kanan: w-25=100px(27.8%), top 0, right 0 -->
-            <div class="absolute" style="top:0; right:0; width:27.8%;">
+            <div id="daunKanan" class="absolute" style="top:0; right:0; width:27.8%;">
                 <img class="w-full h-auto" src="/assets/img/halamanDua/daunKanan.webp" alt="">
             </div>
 
             <!-- Daun atas: w-55=220px(61.1%), -top-4=-16px(-5.6%), center -->
+            <!-- div luar jaga translateX(-50%), div dalam (#daunAtas) bebas di-animasi GSAP -->
             <div class="absolute" style="top:-5.6%; left:50%; transform:translateX(-50%); width:61.1%;">
-                <img class="w-full h-auto" src="/assets/img/halamanDua/daunAtas.webp" alt="">
+                <div id="daunAtas">
+                    <img class="w-full h-auto" src="/assets/img/halamanDua/daunAtas.webp" alt="">
+                </div>
             </div>
 
             <!-- Bunga kiri: w-20=80px(22.2%), translate-y-30=120px(41.7%), translate-x-15=60px(16.7%) -->
-            <div class="absolute" style="top:40%; left:16.7%; width:25%;">
+            <div id="bungaKiri" class="absolute" style="top:40%; left:16.7%; width:25%;">
                 <img class="w-full h-auto -rotate-2" src="/assets/img/halamanDua/bungaKiri.webp" alt="">
             </div>
 
             <!-- Bunga kanan: w-25=100px(27.8%), translate-y-32=128px(44.4%), -translate-x-14=56px -> right:15.6% -->
-            <div class="absolute" style="top:46%; right:20%; width:20%;">
+            <div id="bungaKanan" class="absolute" style="top:46%; right:20%; width:20%;">
                 <img class="w-full h-auto" src="/assets/img/halamanDua/bungaKanan.webp" alt="">
             </div>
 
             <!-- Lingkaran utama: w-40=160px(44.4%), translate-y-6=24px(8.3%), center -->
             <div class="absolute" style="top:15%; left:50%; transform:translateX(-50%); width:44.4%;">
-                <div class="relative">
+                <div id="mainCircle" class="relative">
                     <img class="w-full h-auto" src="/assets/img/halamanDua/mainBg.webp" alt="">
                     <!-- font-size pakai vw agar teks ikut scale bersama container -->
                     <h1 class="font-amoresa absolute inset-0 flex flex-col items-center justify-center text-white text-center leading-tight -rotate-9"
@@ -242,7 +245,7 @@
                 </div>
  
                 <!-- ── Baris 1: 2011 (kiri) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 1;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 1; grid-row: 1;">
                     <div class="flex items-center justify-between">
                         <div class="ph h-6 w-10" data-label="2011">
                         <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2011</h2>
@@ -257,7 +260,7 @@
                 </div>
  
                 <!-- ── Baris 2: 2016 (kanan) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 2;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 3; grid-row: 2;">
                     <div class="flex items-center justify-between">
                          <div class="ph h-6 w-10" data-label="2016">
                         <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2016</h2>
@@ -273,7 +276,7 @@
                 </div>
  
                 <!-- ── Baris 3: 2019 (kiri) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 3;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 1; grid-row: 3;">
                     <div class="flex items-center justify-between">
                         <div class="ph h-6 w-10" data-label="2019">
                         <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2019</h2>
@@ -289,7 +292,7 @@
                 </div>
  
                 <!-- ── Baris 4: 2021 (kanan) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 4;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 3; grid-row: 4;">
                     <div class="flex items-center justify-between">
                         <div class="ph h-6 w-10" data-label="2021">
                         <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2021</h2>
@@ -305,7 +308,7 @@
                 </div>
  
                 <!-- ── Baris 5: 2025 (kiri) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 1; grid-row: 5;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 1; grid-row: 5;">
                     <div class="flex items-center justify-between">
                         <div class="ph h-6 w-10" data-label="2025">
                         <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2025</h2>
@@ -321,7 +324,7 @@
                 </div>
  
                 <!-- ── Baris 6: 2026 (kanan) ── -->
-                <div class="ph p-1 flex flex-col gap-1" style="grid-column: 3; grid-row: 6;">
+                <div class="ph p-1 flex flex-col gap-1" data-story-item style="grid-column: 3; grid-row: 6;">
                     <div class="flex items-center justify-between">
                         <div class="ph h-6 w-10"  data-label="2026">
                             <h2 class="font-calgary text-[#585f26]" style="font-weight: 100;">2026</h2>
@@ -367,5 +370,6 @@
             </a>
         </section>
 </main>
+<script src="js/main.js"></script>
 </body>
 </html>

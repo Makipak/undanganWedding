@@ -25,6 +25,27 @@ const CONFIG = {
 
 
 // ============================================
+//  GUEST NAME — baca dari ?to= di URL
+// ============================================
+function getGuestName() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('to') || '';
+}
+
+function setGuestNames() {
+  const name = getGuestName();
+  if (!name) return;
+
+  document.querySelectorAll('.guest-name').forEach(el => {
+    el.textContent = name;
+  });
+
+  const bukaBtn = document.getElementById('bukaUndanganBtn');
+  if (bukaBtn) bukaBtn.href = `main.html?to=${encodeURIComponent(name)}`;
+}
+
+
+// ============================================
 //  INTRO ANIMATION (GSAP)
 //  Pop-in bertahap saat awal load stateSatu:
 //   1. layer pohon + layer bg
@@ -42,9 +63,11 @@ class IntroAnimation {
     this.layerBg    = layers[1]; // bgPutih + bg
     this.layerDeco  = layers[2]; // pot, batu, bunga
 
-    this.envelope = document.getElementById('envelope');
-    this.title    = this.cover.querySelector('h1'); // You're Invited!
-    this.hashtag  = this.cover.querySelector('h2'); // #foRAverMIne
+    this.envelope    = document.getElementById('envelope');
+    this.title       = document.getElementById('titleGroup') || this.cover.querySelector('h1');
+    this.hashtag     = this.cover.querySelector('h2');
+    this.bungaKiriImg  = this.cover.querySelector('img[src*="bungaKiri"]');
+    this.bungaKananImg = this.cover.querySelector('img[src*="bungaKanan"]');
 
     this.play();
   }
@@ -57,6 +80,7 @@ class IntroAnimation {
       { autoAlpha: 0, scale: 0.6, transformOrigin: '50% 50%' }
     );
     gsap.set(this.hashtag, { autoAlpha: 0 });
+    gsap.set([this.bungaKiriImg, this.bungaKananImg], { autoAlpha: 0, scale: 0.3, transformOrigin: '50% 100%' });
 
     const tl = gsap.timeline({
       defaults: { ease: 'back.out(1.7)' },
@@ -73,6 +97,11 @@ class IntroAnimation {
     tl.to(this.envelope, { autoAlpha: 1, scale: 1, duration: 0.7 }, '+=0.05')
       .to(this.title,    { autoAlpha: 1, scale: 1, duration: 0.7 }, '<')
       .to(this.hashtag,  { autoAlpha: 1, duration: 0.7, ease: 'power2.out' }, '<');
+
+    // Stage 4: bunga kiri & kanan pop in terakhir (stagger supaya natural)
+    tl.to([this.bungaKiriImg, this.bungaKananImg], {
+      autoAlpha: 1, scale: 1, duration: 0.65, ease: 'back.out(2)', stagger: 0.12
+    }, '+=0.05');
   }
 
   // Loop: bunga kiri/kanan tertiup angin
@@ -84,46 +113,18 @@ class IntroAnimation {
     const bungaKiri  = this.cover.querySelector('img[src*="bungaKiri"]');
     const bungaKanan = this.cover.querySelector('img[src*="bungaKanan"]');
 
-    // Pasang filter ke kedua bunga
-    [bungaKiri, bungaKanan].forEach(el => {
-      if (el) el.style.filter = 'url(#wind)';
-    });
-
-    // Animasi parameter filter — alirkan riak terus menerus
-    const turb = document.querySelector('#wind feTurbulence');
-    const disp = document.querySelector('#wind feDisplacementMap');
-
-    if (turb) {
-      const freqProxy = { fx: 0.015, fy: 0.02 };
-      gsap.to(freqProxy, {
-        fx: 0.03, fy: 0.045,
-        duration: 4, ease: 'sine.inOut', repeat: -1, yoyo: true,
-        onUpdate: () => turb.setAttribute('baseFrequency', `${freqProxy.fx} ${freqProxy.fy}`)
-      });
-    }
-
-    if (disp) {
-      const scaleProxy = { s: 4 };
-      gsap.to(scaleProxy, {
-        s: 11,
-        duration: 3.2, ease: 'sine.inOut', repeat: -1, yoyo: true,
-        onUpdate: () => disp.setAttribute('scale', scaleProxy.s)
-      });
-    }
-
-    // Sway tangkai — halus saja (filter sudah jadi efek utama)
     if (bungaKiri) {
       gsap.set(bungaKiri, { transformOrigin: '50% 100%' });
       gsap.fromTo(bungaKiri,
-        { rotation: -2 },
-        { rotation: 3, duration: 2.4, ease: 'sine.inOut', repeat: -1, yoyo: true }
+        { rotation: -3 },
+        { rotation: 4, duration: 2.4, ease: 'sine.inOut', repeat: -1, yoyo: true }
       );
     }
     if (bungaKanan) {
       gsap.set(bungaKanan, { transformOrigin: '50% 100%' });
       gsap.fromTo(bungaKanan,
-        { rotation: 2 },
-        { rotation: -3, duration: 2.7, ease: 'sine.inOut', repeat: -1, yoyo: true }
+        { rotation: 3 },
+        { rotation: -4, duration: 2.7, ease: 'sine.inOut', repeat: -1, yoyo: true }
       );
     }
   }
@@ -149,10 +150,14 @@ class PageTransition {
   }
 
   init() {
-    // Sembunyikan stateDua dan kunci scroll
     if (this.invitation) {
       gsap.set(this.invitation, { autoAlpha: 0, display: 'none' });
     }
+
+    // Sembunyikan amplopBuka (untuk animasi transisi buka amplop)
+    const amplopBukaTransisi = document.getElementById('amplopBukaTransisiImg');
+    if (amplopBukaTransisi) gsap.set(amplopBukaTransisi, { autoAlpha: 0, scale: 1.15 });
+
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
@@ -170,54 +175,45 @@ class PageTransition {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
 
+    const pin             = document.getElementById('pinImg');
+    const amplopTutupImg  = document.getElementById('amplopTutupImg');
+    const amplopBukaImg   = document.getElementById('amplopBukaTransisiImg');
+
     const tl = gsap.timeline({
-      onComplete: () => {
-        window.dispatchEvent(new Event('resize'));
-      }
+      onComplete: () => window.dispatchEvent(new Event('resize'))
     });
 
-    // 1. Shake amplop tertutup
-    tl.to(this.envelope, {
-      x: '+=8',
-      duration: 0.05,
-      repeat: 5,
-      yoyo: true,
-      ease: 'power1.inOut'
-    });
+    // 1. "Open Invitation" menghilang
+    tl.to('#openInvitationBtn', { autoAlpha: 0, duration: 0.15 });
 
-    // 2. Cover (stateSatu) fade out + scale down
-    tl.to(this.cover, {
-      autoAlpha: 0,
-      scale: 0.9,
-      duration: 0.5,
-      ease: 'power2.in'
-    }, '+=0.1');
+    // 2. Pin melompat (pop) lalu terbang ke atas
+    tl.to(pin, { y: -18, scale: 1.5, duration: 0.15, ease: 'back.out(3)' })
+      .to(pin, { y: -90, x: 10, rotate: 45, autoAlpha: 0, duration: 0.35, ease: 'power2.in' });
 
-    // 3. Switch ke invitation (stateDua)
+    // 3. Amplop tutup naik + fade out, amplop buka fade in (flap membuka)
+    tl.to(amplopTutupImg, { autoAlpha: 0, y: -10, duration: 0.3, ease: 'power2.in' }, '+=0.05')
+      .to(amplopBukaImg,  { autoAlpha: 1, scale: 1, duration: 0.35, ease: 'power2.out' }, '<+=0.1');
+
+    // 5. Langsung switch ke stateDua saat amplop terbuka
+    tl.to(this.cover, { autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, '+=0.1');
     tl.set(this.cover,      { display: 'none' });
     tl.set(this.invitation, { display: 'block' });
-    tl.to(this.invitation, {
-      autoAlpha: 1,
-      duration: 0.4
-    });
+    tl.to(this.invitation,  { autoAlpha: 1, duration: 0.4 });
 
-    // 4. Amplop terbuka muncul di tengah dengan efek pop
+    // 6. Objek dalam amplop (stateDua) pop in
     if (this.amplopWrapper) {
       tl.from(this.amplopWrapper, {
-        scale: 0.6,
-        opacity: 0,
-        duration: 0.6,
-        ease: 'back.out(1.4)'
+        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(1.4)'
       }, '<');
     }
 
-    // 5. Unlock scroll
+    // 10. Unlock scroll
     tl.call(() => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     }, null, '+=0.4');
 
-    // 6. Animate scroll ke bawah → semua isi hero naik bareng
+    // 11. Scroll ke bawah otomatis
     const scrollObj = { y: 0 };
     tl.to(scrollObj, {
       y: window.innerHeight,
@@ -234,13 +230,15 @@ class PageTransition {
 //  Real-scratch interactive (touch + mouse)
 // ============================================
 class ScratchCoin {
-  constructor(container) {
+  constructor(container, onComplete) {
     this.container = container;
     this.canvas = container.querySelector('canvas');
     this.ctx = this.canvas.getContext('2d');
 
     this.isDrawing = false;
     this.hasScratched = false;
+    this.isComplete = false;
+    this.onComplete = onComplete;
     this.foilImage = null;
 
     this.setupCanvas();
@@ -327,7 +325,11 @@ class ScratchCoin {
       if (e.touches) e.preventDefault();
       this.scratch(e);
     };
-    const end   = () => { this.isDrawing = false; };
+    const end   = () => {
+      if (!this.isDrawing) return;
+      this.isDrawing = false;
+      this.checkComplete();
+    };
 
     this.canvas.addEventListener('mousedown',  start);
     this.canvas.addEventListener('mousemove',  move);
@@ -336,6 +338,23 @@ class ScratchCoin {
     this.canvas.addEventListener('touchstart', start, { passive: true });
     this.canvas.addEventListener('touchmove',  move,  { passive: false });
     this.canvas.addEventListener('touchend',   end);
+  }
+
+  checkComplete() {
+    if (this.isComplete) return;
+    const { width, height } = this.canvas;
+    const data = this.ctx.getImageData(0, 0, width, height).data;
+    let transparent = 0;
+    // sample setiap 4 pixel supaya tidak berat
+    const step = 4 * 4;
+    const total = Math.floor(data.length / step);
+    for (let i = 3; i < data.length; i += step) {
+      if (data[i] < 10) transparent++;
+    }
+    if (transparent / total >= 0.6) {
+      this.isComplete = true;
+      this.onComplete?.();
+    }
   }
 
   scratch(e) {
@@ -465,17 +484,66 @@ class Countdown {
 
 
 // ============================================
+//  CONFETTI — meledak dari tengah saat semua koin selesai
+// ============================================
+function launchConfetti() {
+  // Warna dari palet undangan
+  const colors = ['#585f26', '#a8b44a', '#d4af37', '#f9c4c4', '#ffffff'];
+
+  const burst = (opts) => confetti({
+    particleCount: 60,
+    spread: 70,
+    colors,
+    ...opts,
+  });
+
+  // Salvo pertama dari tengah
+  burst({ origin: { x: 0.5, y: 0.6 }, angle: 90 });
+
+  // Salvo kiri & kanan 300ms kemudian
+  setTimeout(() => {
+    burst({ origin: { x: 0.2, y: 0.65 }, angle: 60 });
+    burst({ origin: { x: 0.8, y: 0.65 }, angle: 120 });
+  }, 300);
+}
+
+
+// ============================================
 //  INIT — jalankan setelah DOM ready
 // ============================================
 function init() {
+  // Isi nama tamu dari query ?to=
+  setGuestNames();
+
   // Intro pop-in animation untuk stateSatu
   new IntroAnimation();
 
   // Page transition (cover → invitation)
   new PageTransition();
 
-  // Scratch coins (semua element dengan [data-coin])
-  document.querySelectorAll('[data-coin]').forEach(el => new ScratchCoin(el));
+  // Sembunyikan countdown + tombol sampai semua koin selesai di-scratch
+  const countdownSection   = document.getElementById('countdownSection');
+  const bukaUndanganSection = document.getElementById('bukaUndanganSection');
+  if (countdownSection)    gsap.set(countdownSection,    { autoAlpha: 0, y: 24 });
+  if (bukaUndanganSection) gsap.set(bukaUndanganSection, { autoAlpha: 0, y: 24 });
+
+  // Scratch coins — reveal countdown setelah semua 3 koin selesai
+  const coinEls = document.querySelectorAll('[data-coin]');
+  let doneCount = 0;
+  const onCoinComplete = () => {
+    doneCount++;
+    if (doneCount < coinEls.length) return;
+
+    // Semua koin selesai → confetti + tampilkan countdown + tombol
+    launchConfetti();
+    if (countdownSection) {
+      gsap.to(countdownSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+    }
+    if (bukaUndanganSection) {
+      gsap.to(bukaUndanganSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.25 });
+    }
+  };
+  coinEls.forEach(el => new ScratchCoin(el, onCoinComplete));
 
   // Live countdown menuju 6 September 2026
   new Countdown(CONFIG.WEDDING_DATE);
