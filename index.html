@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./dist/output.css">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
     <title>Undangan Ah momen</title>
 </head>
@@ -21,54 +22,50 @@
     </svg>
 
     <div id="stateSatu" class="relative flex items-center justify-center h-screen">
-        <h1 class="font-vivaldi text-4xl text-[#585f26] mb-65">You're Invited!</h1>
+        <div id="titleGroup" class="absolute flex flex-col items-center top-40">
+            <h1 class="font-vivaldi text-4xl text-[#585f26]">You're Invited!</h1>
+            <p class="font-glacial text-[9px] text-[#7a7d35] tracking-[0.3em] uppercase mt-2">Kepada Yth.</p>
+            <p class="font-lucida text-xl text-[#585f26] guest-name">Tamu Undangan</p>
+        </div>
 
         <!-- layer awal -->
-        <div class="absolute flex items-center justify-center ">
-            <div class="w-50 h-auto absolute translate-x-13 mb-7">
-                <img src="assets/svg/halaman satu/pohonKanan.svg" alt="">
-            </div>
-            <div class="w-50 h-auto absolute -translate-y-4 -translate-x-5">
-                <img src="assets/svg/halaman satu/pohonKiri.svg" alt="">
-            </div>
-            <div class="w-80 h-auto absolute mt-5">
-                <img src="assets/svg/halaman satu/pohonTengah.svg" alt="">
-            </div>
+        <div class="absolute flex items-center justify-center w-100 h-auto">
+            <img src="assets/img/halamanSatu/pohon.webp" alt="" class="w-90 h-auto absolute">
         </div>
 
         <!-- layer dua -->
         <div class="absolute flex items-center justify-center">
             <div class="w-60 h-auto absolute">
-                <img src="assets/svg/halaman satu/bgPutih.svg" alt="">
+                <img src="assets/img/halamanSatu/bgPutih.webp" alt="">
             </div>
 
             <div class="w-55 h-auto absolute">
-                <img src="assets/svg/halaman satu/bg.svg" alt="">
+                <img src="assets/img/halamanSatu/bg.webp" alt="">
             </div>
         </div>
         
         <!-- layer tiga -->
         <div class="absolute flex items-center justify-center">
             <div class="w-30 h-auto absolute -translate-x-25 translate-y-10">
-                <img src="assets/svg/halaman satu/potKiri.svg" alt="">
+                <img src="assets/img/halamanSatu/pot.webp" alt="">
             </div>
             <div class="w-35 h-auto absolute -translate-x-25 translate-y-20">
-                <img src="assets/svg/halaman satu/batuKiri.svg" alt="">
+                <img src="assets/img/halamanSatu/batuKiri.webp" alt="">
             </div>
             <div class="w-35 h-auto absolute translate-x-25 translate-y-20">
-                <img src="assets/svg/halaman satu/batuKanan.svg" alt="">
+                <img src="assets/img/halamanSatu/batuKanan.webp" alt="">
             </div>
             <div class="w-20 h-auto absolute -translate-x-30 translate-y-5">
-                <img src="assets/svg/halaman satu/bungaKiri.svg" alt="">
+                <img src="assets/img/halamanSatu/bungaKiri.webp" alt="">
             </div>
             <div class="w-30 h-auto absolute translate-x-30 translate-y-7">
-                <img src="assets/svg/halaman satu/bungaKanan.svg" alt="">
+                <img src="assets/img/halamanSatu/bungaKanan.webp" alt="">
             </div>
         </div>
         
         <div id="envelope" class="w-35 h-25 absolute flex items-center justify-center">
-            <img src="assets/svg/halaman satu/amplopTutup.svg" alt="">
-            <img class="w-7 h-auto absolute translate-y-2" src="assets/svg/halaman satu/pin.svg" alt="">
+            <img id="amplopTutupImg" src="assets/img/halamanSatu/amplopTutup.webp" alt="">
+<img id="pinImg" class="w-7 h-auto absolute translate-y-2" src="assets/img/halamanSatu/pin.webp" alt="">
             <a id="openInvitationBtn" href="" class="absolute">
                 <p class="font-lucida text-[7px] translate-y-9 text-white">Open Invitation</p>
             </a>
@@ -81,69 +78,61 @@
     <div id="stateDua" class="page page-invitation">
         <!-- 1. Hero floral envelope -->
         <section class="relative flex items-center justify-center h-screen overflow-hidden">
-            <!-- layer awal - pohon (sama spt stateSatu) + janur (tambahan stateDua) -->
-            <div class="absolute flex items-center justify-center">
-                <div class="w-50 h-auto absolute translate-x-13 mb-7">
-                    <img src="assets/svg/halaman satu/pohonKanan.svg" alt="">
-                </div>
-                <div class="w-50 h-auto absolute -translate-y-4 -translate-x-5">
-                    <img src="assets/svg/halaman satu/pohonKiri.svg" alt="">
-                </div>
-                <div class="w-80 h-auto absolute mt-5">
-                    <img src="assets/svg/halaman satu/pohonTengah.svg" alt="">
-                </div>
+            <!-- layer awal - pohon + janur (tambahan stateDua) -->
+            <div class="absolute flex items-center justify-center w-100 h-auto">
+                <img src="assets/img/halamanSatu/pohon.webp" alt="" class="w-90 h-auto absolute">
             </div>
 
             <!-- layer dua - bg panel (sama spt stateSatu) + layerAmplop -->
             <div class="absolute flex items-center justify-center">
                 <div class="w-60 h-auto absolute">
-                    <img src="assets/svg/halaman satu/bgPutih.svg" alt="">
+                    <img src="assets/img/halamanSatu/bgPutih.webp" alt="">
                 </div>
             </div>
 
             <!-- layer tiga - dekorasi (sama spt stateSatu) + objek tambahan stateDua -->
             <div class="absolute flex items-center justify-center">
                 <div class="w-30 h-auto absolute -translate-x-25 translate-y-10">
-                    <img src="assets/svg/halaman satu/potKiri.svg" alt="">
+                    <img src="assets/img/halamanSatu/pot.webp" alt="">
                 </div>
                 <div class="w-35 h-auto absolute -translate-x-25 translate-y-20">
-                    <img src="assets/svg/halaman satu/batuKiri.svg" alt="">
+                    <img src="assets/img/halamanSatu/batuKiri.webp" alt="">
                 </div>
                 <div class="w-35 h-auto absolute translate-x-25 translate-y-20">
-                    <img src="assets/svg/halaman satu/batuKanan.svg" alt="">
+                    <img src="assets/img/halamanSatu/batuKanan.webp" alt="">
                 </div>
-                <div class="w-30 h-auto absolute translate-x-28 -translate-y-17 scale-60">
-                    <img src="assets/svg/halaman satu/stateDua/janurKanan.svg" alt="">
+                <div id="s2JanurKanan" class="w-30 h-auto absolute translate-x-28 -translate-y-17 scale-60">
+                    <img src="assets/img/halamanSatu/stateDua/janurKanan.webp" alt="">
                 </div>
-                <div class="w-30 h-auto absolute -translate-x-28 -translate-y-17 scale-60">
-                    <img src="assets/svg/halaman satu/stateDua/janurKiri.svg" alt="">
+                <div id="s2JanurKiri" class="w-30 h-auto absolute -translate-x-28 -translate-y-17 scale-60">
+                    <img src="assets/img/halamanSatu/stateDua/janurKiri.webp" alt="">
                 </div>
-                <div class="w-20 h-auto absolute -translate-x-30 translate-y-5">
-                    <img src="assets/svg/halaman satu/bungaKiri.svg" alt="">
+                <div id="s2BungaKiri" class="w-20 h-auto absolute -translate-x-30 translate-y-5">
+                    <img src="assets/img/halamanSatu/bungaKiri.webp" alt="">
                 </div>
                 <!-- tambahan stateDua -->
                 <div class="w-20 h-auto absolute -translate-x-30 translate-y-18">
-                    <img src="assets/svg/halaman satu/stateDua/kol.svg" alt="">
+                    <img src="assets/img/halamanSatu/stateDua/kol.webp" alt="">
                 </div>
             </div>
 
             <!-- amplop buka - tengah (ganti amplopTutup+pin) -->
             <div id="amplopBukaWrapper" class="absolute -mt-20 scale-88">
                 <div class="w-35 relative">
-                    <img src="assets/svg/halaman satu/stateDua/amplopBuka.svg" alt="" class="w-full z-0 scale-130">
-                    <img src="assets/svg/halaman satu/stateDua/objekTengah.svg" alt="" class="absolute z-10 w-28 rotate-7" style="left: 60%; top: -70px; transform: translateX(-50%)">
-                    <img src="assets/svg/halaman satu/stateDua/objekKiri.svg" alt="" class="absolute z-10 w-25 scale-80" style="left: -37px; top: -80px;">
-                    <img src="assets/svg/halaman satu/stateDua/bungaPutih.svg" alt="" class="absolute z-10 w-22" style="right: -40px; top: -20px;">
-                    <img src="assets/svg/halaman satu/stateDua/bungaPink.svg" alt="" class="absolute z-10 w-24" style="left: 60%; top: 50px; transform: translateX(-50%)">
-                    <img src="assets/svg/halaman satu/stateDua/layerAmplop.svg" alt="" class="absolute top-6 left-0 w-full h-full scale-120 z-20">
-                    <img src="assets/svg/halaman satu/stateDua/bungaijo.svg" alt="" class="absolute z-25 w-20" style="right: -60px; bottom: -80px;">
+                    <img src="assets/img/halamanSatu/stateDua/amplopBuka.webp" alt="" class="w-full z-0 scale-130">
+                    <img id="objekTengah" src="assets/img/halamanSatu/stateDua/objekTengah.webp" alt="" class="absolute z-10 w-28 rotate-7" style="left: 16%; top: -70px;">
+                    <img id="objekKiri"   src="assets/img/halamanSatu/stateDua/objekKiri.webp"   alt="" class="absolute z-10 w-25 scale-80" style="left: -25px; top: -100px;">
+                    <img id="objekKanan"  src="assets/img/halamanSatu/stateDua/objekKanan.webp"  alt="" class="absolute z-10 w-22" style="right: -40px; top: -20px;">
+                    <img id="bungaPink"   src="assets/img/halamanSatu/stateDua/bungaPink.webp"   alt="" class="absolute z-10 w-24" style="left: 20%; top: 50px;">
+                    <img src="assets/img/halamanSatu/stateDua/layerDepanAmplopBuka.webp" alt="" class="absolute top-17 left-0 w-50 h-auto scale-125 z-20">
+                    <img id="bungIjo" src="assets/img/halamanSatu/stateDua/bungIjo.webp" alt="" class="absolute z-25 w-20" style="right: -60px; bottom: -80px;">
                 </div>
             </div>
 
             <!-- bungaKanan - di depan layerAmplop & bungaijo -->
             <div class="absolute flex items-center justify-center">
-                <div class="w-30 h-auto absolute translate-x-30 translate-y-7">
-                    <img src="assets/svg/halaman satu/bungaKanan.svg" alt="">
+                <div id="s2BungaKanan" class="w-30 h-auto absolute translate-x-30 translate-y-7">
+                    <img src="assets/img/halamanSatu/bungaKanan.webp" alt="">
                 </div>
             </div>
         </section>
@@ -179,39 +168,39 @@
         </section>
     
         <!-- 4. Countdown -->
-        <section class="mt-10 w-full text-center pb-12">
-            <h2 class="font-citadel text-5xl text-[#585f26]">Countdown</h2>
-    
-            <!-- Numbers: 126 : 12 : 37 : 42 -->
-            <div class="mt-6 flex items-center justify-center gap-3 text-[#585f26]">
-            <span class="text-5xl font-light tabular-nums" id="cd-days">126</span>
-            <span class="text-4xl">:</span>
-            <span class="text-5xl font-light tabular-nums" id="cd-hours">12</span>
-            <span class="text-4xl">:</span>
-            <span class="text-5xl font-light tabular-nums" id="cd-minutes">37</span>
-            <span class="text-4xl">:</span>
-            <span class="text-5xl font-light tabular-nums" id="cd-seconds">42</span>
-            </div>
+            <section id="countdownSection" class="mt-10 w-full text-center pb-12">
+                <h2 class="font-citadel text-5xl text-[#585f26]">Countdown</h2>
+        
+                <!-- Numbers: 126 : 12 : 37 : 42 -->
+                <div class="mt-6 flex items-center justify-center gap-3 text-[#585f26]">
+                <span class="text-5xl font-light tabular-nums" id="cd-days">126</span>
+                <span class="text-4xl">:</span>
+                <span class="text-5xl font-light tabular-nums" id="cd-hours">12</span>
+                <span class="text-4xl">:</span>
+                <span class="text-5xl font-light tabular-nums" id="cd-minutes">37</span>
+                <span class="text-4xl">:</span>
+                <span class="text-5xl font-light tabular-nums" id="cd-seconds">42</span>
+                </div>
 
-            <!-- Labels: HARI JAM MNT DTK -->
-            <div class="mt-3 flex items-center justify-center gap-3 text-xs tracking-[0.3em] text-[#585f26] uppercase">
-            <span class="w-12 text-center">Hari</span>
-            <span class="w-2"></span>
-            <span class="w-12 text-center">Jam</span>
-            <span class="w-2"></span>
-            <span class="w-12 text-center">Mnt</span>
-            <span class="w-2"></span>
-            <span class="w-12 text-center">Dtk</span>
-            </div>
-        </section>
+                <!-- Labels: HARI JAM MNT DTK -->
+                <div class="mt-3 flex items-center justify-center gap-3 text-xs tracking-[0.3em] text-[#585f26] uppercase">
+                <span class="w-12 text-center">Hari</span>
+                <span class="w-2"></span>
+                <span class="w-12 text-center">Jam</span>
+                <span class="w-2"></span>
+                <span class="w-12 text-center">Mnt</span>
+                <span class="w-2"></span>
+                <span class="w-12 text-center">Dtk</span>
+                </div>
+            </section>
 
-        <!-- Tombol ke halaman utama undangan -->
-        <section class="w-full text-center pb-16 pt-4">
-            <a href="main.html"
-               class="inline-block font-glacial tracking-[0.3em] uppercase text-sm text-[#f9f5f0] bg-[#585f26] px-10 py-3 rounded-full hover:bg-[#5d794c] transition-colors duration-300">
-                Buka Undangan
-            </a>
-        </section>
+            <!-- Tombol ke halaman utama undangan -->
+            <section id="bukaUndanganSection" class="w-full text-center pb-16 pt-4">
+                <a id="bukaUndanganBtn" href="main.html"
+                class="inline-block font-glacial tracking-[0.3em] uppercase text-sm text-[#f9f5f0] bg-[#585f26] px-10 py-3 rounded-full hover:bg-[#5d794c] transition-colors duration-300">
+                    Buka Undangan
+                </a>
+            </section>
 
         </main>
     </div>
