@@ -154,10 +154,6 @@ class PageTransition {
       gsap.set(this.invitation, { autoAlpha: 0, display: 'none' });
     }
 
-    // Sembunyikan amplopBuka (untuk animasi transisi buka amplop)
-    const amplopBukaTransisi = document.getElementById('amplopBukaTransisiImg');
-    if (amplopBukaTransisi) gsap.set(amplopBukaTransisi, { autoAlpha: 0, scale: 1.15 });
-
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
@@ -175,45 +171,75 @@ class PageTransition {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
 
-    const pin             = document.getElementById('pinImg');
-    const amplopTutupImg  = document.getElementById('amplopTutupImg');
-    const amplopBukaImg   = document.getElementById('amplopBukaTransisiImg');
+    const pin            = document.getElementById('pinImg');
+    const amplopTutupImg = document.getElementById('amplopTutupImg');
 
     const tl = gsap.timeline({
       onComplete: () => window.dispatchEvent(new Event('resize'))
     });
 
-    // 1. "Open Invitation" menghilang
-    tl.to('#openInvitationBtn', { autoAlpha: 0, duration: 0.15 });
+    // 1. Semua elemen stateSatu hilang bersamaan
+    tl.set('#openInvitationBtn', { autoAlpha: 0 });
+    tl.to(pin, { y: -80, x: 10, rotate: 45, autoAlpha: 0, duration: 0.45, ease: 'power2.in' });
+    tl.to(amplopTutupImg, { autoAlpha: 0, duration: 0.45, ease: 'power2.inOut' }, '<');
+    tl.to(this.cover, { autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '<+=0.15');
 
-    // 2. Pin melompat (pop) lalu terbang ke atas
-    tl.to(pin, { y: -18, scale: 1.5, duration: 0.15, ease: 'back.out(3)' })
-      .to(pin, { y: -90, x: 10, rotate: 45, autoAlpha: 0, duration: 0.35, ease: 'power2.in' });
-
-    // 3. Amplop tutup naik + fade out, amplop buka fade in (flap membuka)
-    tl.to(amplopTutupImg, { autoAlpha: 0, y: -10, duration: 0.3, ease: 'power2.in' }, '+=0.05')
-      .to(amplopBukaImg,  { autoAlpha: 1, scale: 1, duration: 0.35, ease: 'power2.out' }, '<+=0.1');
-
-    // 5. Langsung switch ke stateDua saat amplop terbuka
-    tl.to(this.cover, { autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, '+=0.1');
+    // 2. stateDua muncul — set elemen tersembunyi SEBELUM fade in
+    //    agar GSAP bisa baca dimensi asli (display:block tapi masih opacity:0)
     tl.set(this.cover,      { display: 'none' });
     tl.set(this.invitation, { display: 'block' });
-    tl.to(this.invitation,  { autoAlpha: 1, duration: 0.4 });
 
-    // 6. Objek dalam amplop (stateDua) pop in
+    // Sembunyikan elemen dalam timeline (bukan init) supaya dimensi sudah tersedia
+    const janurKiriImg  = document.querySelector('#s2JanurKiri  img');
+    const janurKananImg = document.querySelector('#s2JanurKanan img');
+    const bungaKiriImg  = document.querySelector('#s2BungaKiri  img');
+    const bungaKananImg = document.querySelector('#s2BungaKanan img');
+
+    tl.set([janurKiriImg, janurKananImg, bungaKiriImg, bungaKananImg],
+      { autoAlpha: 0 });
+    // objekKiri punya class scale-80 → end animasi harus 0.8 bukan 1
+    // objekTengah + bungaPink punya translateX(-50%) inline → pakai x:'-50%' agar GSAP gabungkan
+    tl.set('#objekKiri',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
+    tl.set('#objekKanan',  { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
+    tl.set('#objekTengah', { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
+    tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
+    tl.set('#bungIjo', { autoAlpha: 0 });
+
+    // invitation + amplopBukaWrapper fade in bersamaan, durasi sama dengan tutup fade out
+    tl.to(this.invitation, { autoAlpha: 1, duration: 0.45, ease: 'power2.inOut' });
     if (this.amplopWrapper) {
-      tl.from(this.amplopWrapper, {
-        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(1.4)'
-      }, '<');
+      tl.from(this.amplopWrapper, { autoAlpha: 0, duration: 0.45, ease: 'power2.inOut' }, '<');
     }
 
-    // 10. Unlock scroll
+    // 4. Janur, bunga, bungIjo langsung muncul (tanpa pop) lalu sway
+    tl.set([janurKiriImg, janurKananImg, bungaKiriImg, bungaKananImg, '#bungIjo'],
+      { autoAlpha: 1 }, '+=0.05');
+
+    // 4 objek dalam amplop pop bersamaan
+    tl.to(['#objekKiri', '#objekTengah', '#objekKanan', '#bungaPink'],
+      { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.8)' }, '<');
+    tl.set('#objekKiri', { scale: 0.8 });
+
+    // 5. Sway loop setelah pop selesai
+    tl.call(() => {
+      const sway = (el, from, to, dur, origin) => {
+        if (!el) return;
+        gsap.set(el, { transformOrigin: origin });
+        gsap.fromTo(el, { rotation: from }, { rotation: to, duration: dur, ease: 'sine.inOut', repeat: -1, yoyo: true });
+      };
+      sway(janurKiriImg,  -4,  4, 3.8, '50% 100%');
+      sway(janurKananImg,  4, -4, 3.5, '50% 100%');
+      sway(bungaKiriImg,  -3,  3, 2.4, '50% 100%');
+      sway(bungaKananImg,  3, -3, 2.7, '50% 100%');
+    });
+
+    // 6. Unlock scroll
     tl.call(() => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-    }, null, '+=0.4');
+    }, null, '+=0.3');
 
-    // 11. Scroll ke bawah otomatis
+    // 6. Scroll ke bawah otomatis
     const scrollObj = { y: 0 };
     tl.to(scrollObj, {
       y: window.innerHeight,
