@@ -205,6 +205,11 @@ class PageTransition {
     tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
     tl.set('#bungIjo', { autoAlpha: 0 });
 
+    // Lukis foil koin sekarang — invitation sudah display:block tapi masih invisible,
+    // sehingga getBoundingClientRect() sudah punya dimensi nyata.
+    // Tanpa ini, angka muncul sebentar sebelum foil terlukis.
+    tl.call(() => window.dispatchEvent(new Event('resize')));
+
     // invitation + amplopBukaWrapper fade in bersamaan, durasi sama dengan tutup fade out
     tl.to(this.invitation, { autoAlpha: 1, duration: 0.45, ease: 'power2.inOut' });
     if (this.amplopWrapper) {

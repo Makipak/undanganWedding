@@ -83,12 +83,25 @@
         --bg: #f9f5f0;
     }
 
-    html, body {
+    /*
+     * Responsive scaling — baseline desain Samsung Galaxy S8+ (360px = 16px root).
+     * Semua Tailwind unit (rem) ikut scale otomatis:
+     *   - viewport 320px → 14.22px  (iPhone SE 1st gen, dll — layout fit, no overflow)
+     *   - viewport 360px → 16px     (baseline desain)
+     *   - viewport 430px → 19.11px  (iPhone 14 Pro Max, dll — isi penuh)
+     *   - viewport >430 → 19.11px   (iPad/Tab/Desktop — di-cap, body tetap 430px center)
+     */
+    html {
+        font-size: clamp(14.22px, calc(100vw / 22.5), 19.11px);
+        background-color: var(--bg);
+        min-height: 100vh;
+    }
+
+    body {
         max-width: 430px;
         margin: 0 auto;
         min-height: 100vh;
         overflow-x: hidden;
-
         background-color: var(--bg);
     }
 
