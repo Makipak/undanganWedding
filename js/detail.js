@@ -1,3 +1,16 @@
+function copyRekening(btn, number) {
+  navigator.clipboard.writeText(number).then(() => {
+    const label = btn.querySelector('span') ?? btn;
+    const original = label.textContent;
+    label.textContent = 'Copied!';
+    btn.disabled = true;
+    setTimeout(() => {
+      label.textContent = original;
+      btn.disabled = false;
+    }, 1500);
+  });
+}
+
 const SUPABASE_URL = 'https://bcdukrmyktdvsorpzhfu.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjZHVrcm15a3RkdnNvcnB6aGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTE3OTUsImV4cCI6MjA5MDk2Nzc5NX0.65_gtSQ1bfUsR1K5lCSHoFmJ1Z9Ko9HmkE7unTDx2T4'
 
@@ -77,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (secKado) {
     const kadoImg   = secKado.querySelector('.w-\\[45\\%\\]');
     const vivaldi   = secKado.querySelector('.font-vivaldi');
-    const blob      = secKado.querySelector('.relative.w-full.flex');
+    const blobs     = [...secKado.querySelectorAll('.relative.w-full.flex')];
     const wpText    = secKado.querySelector('p.font-glacial');
-    const wpBtn     = secKado.querySelector('button');
-    fadeUpStagger([kadoImg, vivaldi, blob, wpText, wpBtn], secKado, { stagger: 0.15 });
+    const wpBtn     = secKado.querySelector('a[href*="wa.me"]');
+    fadeUpStagger([kadoImg, vivaldi, ...blobs, wpText, wpBtn], secKado, { stagger: 0.15 });
   }
 
 

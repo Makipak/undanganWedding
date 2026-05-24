@@ -144,25 +144,25 @@
             <p class="font-glacial mt-2 text-[10px] tracking-[0.4em] text-[#7a7d35] uppercase">
             Scratch to discover the date
             </p>
-    
+
             <!-- 3 scratch coins (foil: ./assets/coin-foil.png, content: 6 / 9 / 2026) -->
-            <div class="text-[#7a7d35] mt-8 grid grid-cols-3 gap-4 text-">
+            <div class="text-[#7a7d35] mt-8 grid grid-cols-3 gap-4">
                 <div class="scratch-coin" data-coin>
-                    <span class="coin-content text-5xl">6</span>
+                    <span class="font-amoresa coin-content text-5xl">6</span>
                     <canvas aria-hidden="true"></canvas>
                 </div>
                 <div class="scratch-coin" data-coin>
-                    <span class="coin-content text-3xl">Sept</span>
+                    <span class="font-amoresa coin-content text-3xl">Sept</span>
                     <canvas aria-hidden="true"></canvas>
                 </div>
                 <div class="scratch-coin" data-coin>
-                    <span class="coin-content text-3xl">2026</span>
+                    <span class="font-amoresa coin-content text-3xl">2026</span>
                     <canvas aria-hidden="true"></canvas>
                 </div>
             </div>
 
-            <!-- 3. Save The Date -->
-            <h2 class="font-citadel text-[26px] text-[#585f26] mt-8">
+            <!-- Save The Date — muncul setelah semua koin selesai -->
+            <h2 id="saveTheDateText" class="font-citadel text-[26px] text-[#585f26] mt-8">
                 Save The Date<span class="text-[#585f26]">!</span>
             </h2>
         </section>
@@ -172,25 +172,26 @@
                 <h2 class="font-citadel text-5xl text-[#585f26]">Countdown</h2>
         
                 <!-- Numbers: 126 : 12 : 37 : 42 -->
-                <div class="mt-6 flex items-center justify-center gap-3 text-[#585f26]">
-                <span class="text-5xl font-light tabular-nums" id="cd-days">126</span>
-                <span class="text-4xl">:</span>
-                <span class="text-5xl font-light tabular-nums" id="cd-hours">12</span>
-                <span class="text-4xl">:</span>
-                <span class="text-5xl font-light tabular-nums" id="cd-minutes">37</span>
-                <span class="text-4xl">:</span>
-                <span class="text-5xl font-light tabular-nums" id="cd-seconds">42</span>
+                <div class="mt-6 flex items-end justify-center gap-2 text-[#585f26]">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-5xl font-glacial leading-tight tabular-nums" id="cd-days">126</span>
+                    <span class="text-[9px] font-glacial tracking-[0.3em] uppercase">Hari</span>
                 </div>
-
-                <!-- Labels: HARI JAM MNT DTK -->
-                <div class="mt-3 flex items-center justify-center gap-3 text-xs tracking-[0.3em] text-[#585f26] uppercase">
-                <span class="w-12 text-center">Hari</span>
-                <span class="w-2"></span>
-                <span class="w-12 text-center">Jam</span>
-                <span class="w-2"></span>
-                <span class="w-12 text-center">Mnt</span>
-                <span class="w-2"></span>
-                <span class="w-12 text-center">Dtk</span>
+                <span class="text-4xl font-glacial mb-5">:</span>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-5xl font-glacial leading-tight tabular-nums" id="cd-hours">12</span>
+                    <span class="text-[9px] font-glacial tracking-[0.3em] uppercase">Jam</span>
+                </div>
+                <span class="text-4xl font-glacial mb-5">:</span>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-5xl font-glacial leading-tight tabular-nums" id="cd-minutes">37</span>
+                    <span class="text-[9px] font-glacial tracking-[0.3em] uppercase">Mnt</span>
+                </div>
+                <span class="text-4xl font-glacial mb-5">:</span>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-5xl font-glacial leading-tight tabular-nums" id="cd-seconds">42</span>
+                    <span class="text-[9px] font-glacial tracking-[0.3em] uppercase">Dtk</span>
+                </div>
                 </div>
             </section>
 

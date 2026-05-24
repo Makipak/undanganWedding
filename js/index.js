@@ -547,26 +547,31 @@ function init() {
   // Page transition (cover → invitation)
   new PageTransition();
 
-  // Sembunyikan countdown + tombol sampai semua koin selesai di-scratch
-  const countdownSection   = document.getElementById('countdownSection');
+  // Sembunyikan countdown + tombol + save the date sampai semua koin selesai di-scratch
+  const countdownSection    = document.getElementById('countdownSection');
   const bukaUndanganSection = document.getElementById('bukaUndanganSection');
+  const saveTheDateText     = document.getElementById('saveTheDateText');
   if (countdownSection)    gsap.set(countdownSection,    { autoAlpha: 0, y: 24 });
   if (bukaUndanganSection) gsap.set(bukaUndanganSection, { autoAlpha: 0, y: 24 });
+  if (saveTheDateText)     gsap.set(saveTheDateText,     { autoAlpha: 0, y: 16 });
 
-  // Scratch coins — reveal countdown setelah semua 3 koin selesai
+  // Scratch coins — reveal setelah semua 3 koin selesai
   const coinEls = document.querySelectorAll('[data-coin]');
   let doneCount = 0;
   const onCoinComplete = () => {
     doneCount++;
     if (doneCount < coinEls.length) return;
 
-    // Semua koin selesai → confetti + tampilkan countdown + tombol
+    // Semua koin selesai → confetti + tampilkan save the date + countdown + tombol
     launchConfetti();
+    if (saveTheDateText) {
+      gsap.to(saveTheDateText, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    }
     if (countdownSection) {
-      gsap.to(countdownSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+      gsap.to(countdownSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.15 });
     }
     if (bukaUndanganSection) {
-      gsap.to(bukaUndanganSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.25 });
+      gsap.to(bukaUndanganSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.35 });
     }
   };
   coinEls.forEach(el => new ScratchCoin(el, onCoinComplete));

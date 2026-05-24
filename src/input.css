@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap');
 
 @font-face {
     font-family: 'Vivaldi';
@@ -73,6 +74,7 @@
     --font-citadel: 'citadel', cursive;
     --font-blosta: 'blosta', serif;
     --font-calgary: 'calgary', cursive;
+    --font-playfair: 'Playfair Display', serif;
 }
 
 
