@@ -20,33 +20,77 @@
         <div class="grid gap-1 w-full"
             style="grid-template-columns: 1fr 1.3fr 1fr 1fr 1fr; grid-template-rows: repeat(6, calc((min(500px, 100vw) - 4px) / 5));">
 
-            <!-- 1 — Foto besar kiri atas (portrait) -->
-            <div class="col-span-2 col-start-2 row-span-2 bg-[#c8ca8e] relative z-[2]">
+            <!-- 1 — Foto besar tengah atas (1:1) -->
+            <div class="col-span-2 col-start-2 row-span-2 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/1.jpeg">
+              <img src="assets/img/album/1.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
             </div>
 
-            <!-- 2 — Foto kanan atas -->
-            <div class="row-span-1 col-start-4 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 2 — Foto kanan atas (1:1) -->
+            <div class="row-span-1 col-start-4 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/2.jpeg">
+              <img src="assets/img/album/2.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 70%;">
+            </div>
 
-            <!-- 3 — Foto kanan bawah (block 1) -->
-            <div class="row-span-1 col-start-4 row-start-2 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 3 — Foto kanan bawah (1:1) -->
+            <div class="row-span-1 col-start-4 row-start-2 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/3.jpeg">
+              <img src="assets/img/album/3.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 4 — placeholder kosong untuk mempertahankan posisi row 5 di grid -->
-            <div class="col-span-3 col-start-2 row-start-3 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 4 — Foto panoramik tengah (3:1) -->
+            <div class="col-span-3 col-start-2 row-start-3 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/4.jpeg">
+              <img src="assets/img/album/4.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 5 — Foto kiri bawah (portrait, sedikit lebih lebar) -->
-            <div class="row-span-2 col-start-2 row-start-4 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 5 — Foto portrait kiri bawah (2:3) -->
+            <div class="row-span-2 col-start-2 row-start-4 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/5.jpeg">
+              <img src="assets/img/album/5.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 6 — Foto tengah bawah baris 1 -->
-            <div class="col-start-3 row-start-4 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 6 — Foto tengah bawah baris 1 (1:1) -->
+            <div class="col-start-3 row-start-4 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/6.jpeg">
+              <img src="assets/img/album/6.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 7 — Foto tengah bawah baris 2 -->
-            <div class="col-start-3 row-start-5 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 7 — Foto tengah bawah baris 2 (1:1) -->
+            <div class="col-start-3 row-start-5 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/7.jpeg">
+              <img src="assets/img/album/7.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 8 — Foto kanan bawah baris 1 -->
-            <div class="col-start-4 row-start-4 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 8 — Foto kanan bawah baris 1 (1:1) -->
+            <div class="col-start-4 row-start-4 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/8.jpeg">
+              <img src="assets/img/album/8.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
-            <!-- 9 — Foto kanan bawah baris 2 -->
-            <div class="col-start-4 row-start-5 bg-[#c8ca8e] relative z-[2]"></div>
+            <!-- 9 — Foto kanan bawah baris 2 (1:1) -->
+            <div class="col-start-4 row-start-5 bg-[#c8ca8e] relative z-[2] overflow-hidden cursor-pointer album-foto"
+                 data-src="assets/img/album/9.jpeg">
+              <img src="assets/img/album/9.jpeg" alt=""
+                   class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                   style="object-position: 50% 50%;">
+            </div>
 
           </div>
 
@@ -160,7 +204,7 @@
               <span>copy</span>
             </button>
           </div>
-          <div class="font-calgary text-left scale-80 -translate-x-5" style="font-weight: 100;">
+          <div class="font-playfair text-left scale-80 -translate-x-5 -translate-y-2" style="font-weight: 100;">
             <p class="text-[#7a7a5a] text-[10px] tracking-widest uppercase">Account Name:</p>
             <p class="text-[#5a5a2a] text-xs tracking-widest uppercase">Thamia Farisatuddiniyah</p>
           </div>
@@ -186,7 +230,7 @@
               <span>copy</span>
             </button>
           </div>
-          <div class="font-calgary text-left scale-80 -translate-x-5" style="font-weight: 100;">
+          <div class="font-playfair text-left scale-80 -translate-x-5 -translate-y-2" style="font-weight: 100;">
             <p class="text-[#7a7a5a] text-[10px] tracking-widest uppercase">Account Name:</p>
             <p class="text-[#5a5a2a] text-xs tracking-widest uppercase">Taufan Bisma Ramadhan</p>
           </div>
@@ -236,6 +280,17 @@
 
     </section>
   </main>
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="hidden fixed inset-0 z-[9999] items-center justify-center bg-black/80 animate-lb-fade">
+    <div id="lightbox-backdrop" class="absolute inset-0"></div>
+    <img id="lightbox-img" src="" alt=""
+         class="relative z-[1] max-w-[92vw] max-h-[88vh] object-contain rounded-lg shadow-2xl animate-lb-scale">
+    <button id="lightbox-close"
+            class="absolute top-4 right-4 z-[2] w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 text-white text-2xl leading-none border-0 cursor-pointer transition-colors">
+      &times;
+    </button>
+  </div>
+
   <script src="js/detail.js"></script>
 </body>
 </html>

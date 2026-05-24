@@ -64,7 +64,19 @@
     font-style: normal;
 }
 
+@keyframes lb-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes lb-scale-in {
+    from { opacity: 0; transform: scale(0.88); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
 @theme {
+    --animate-lb-fade:  lb-fade-in  0.25s ease both;
+    --animate-lb-scale: lb-scale-in 0.25s ease both;
     --font-vivaldi: 'Vivaldi', cursive;
     --font-lucida: 'Lucida', cursive;
     --font-codex: 'Codex', serif;

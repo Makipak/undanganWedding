@@ -1,3 +1,32 @@
+// ── Lightbox ──────────────────────────────────────────────────
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.classList.remove('hidden');
+  lightbox.classList.add('flex');
+  document.documentElement.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('flex');
+  lightbox.classList.add('hidden');
+  document.documentElement.style.overflow = '';
+  setTimeout(() => { lightboxImg.src = ''; }, 250);
+}
+
+document.querySelectorAll('.album-foto').forEach(el => {
+  el.addEventListener('click', () => openLightbox(el.dataset.src));
+});
+
+document.getElementById('lightbox-backdrop').addEventListener('click', closeLightbox);
+lightboxClose.addEventListener('click', closeLightbox);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ──────────────────────────────────────────────────────────────
+
 function copyRekening(btn, number) {
   navigator.clipboard.writeText(number).then(() => {
     const label = btn.querySelector('span') ?? btn;
