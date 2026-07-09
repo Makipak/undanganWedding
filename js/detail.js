@@ -47,6 +47,111 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 
 
 // ============================================================
+//  RSVP FORM + REALTIME WISHES WALL
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const nameInput       = document.getElementById('rsvpName');
+  const messageInput    = document.getElementById('rsvpMessage');
+  const attendingCb     = document.getElementById('attending');
+  const notAttendingCb  = document.getElementById('not-attending');
+  const submitBtn       = document.getElementById('rsvpSubmitBtn');
+  const statusEl        = document.getElementById('rsvpStatus');
+  const wishesList       = document.getElementById('wishesList');
+  const wishesEmpty      = document.getElementById('wishesEmpty');
+
+  if (!submitBtn || !wishesList) return;
+
+  // Attending / Not Attending act like a radio pair
+  attendingCb?.addEventListener('change', () => {
+    if (attendingCb.checked) notAttendingCb.checked = false;
+  });
+  notAttendingCb?.addEventListener('change', () => {
+    if (notAttendingCb.checked) attendingCb.checked = false;
+  });
+
+  const setStatus = (text, isError = false) => {
+    if (!statusEl) return;
+    statusEl.textContent = text;
+    statusEl.classList.toggle('text-red-600', isError);
+    statusEl.classList.toggle('text-[#5a5a2a]', !isError);
+  };
+
+  const buildWishCard = ({ nama, pesan }) => {
+    const card = document.createElement('div');
+    card.className = 'bg-[#f0ede8] rounded-xl px-4 py-3';
+
+    const nameEl = document.createElement('p');
+    nameEl.className = 'font-anaktoria text-sm text-[#585f26]';
+    nameEl.textContent = nama || 'Tamu';
+
+    const msgEl = document.createElement('p');
+    msgEl.className = 'font-glacial text-xs text-[#7a7d35] mt-1';
+    msgEl.textContent = pesan || '';
+
+    card.append(nameEl, msgEl);
+    return card;
+  };
+
+  // ── Load existing wishes ──
+  db.from('rsvp')
+    .select('nama, pesan, created_at')
+    .order('created_at', { ascending: false })
+    .limit(50)
+    .then(({ data, error }) => {
+      if (error || !data || !data.length) return;
+      wishesEmpty?.classList.add('hidden');
+      data.forEach(row => wishesList.appendChild(buildWishCard(row)));
+    });
+
+  // ── Realtime: new wishes appear live for every visitor, including the sender ──
+  db.channel('rsvp-wall')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvp' }, (payload) => {
+      wishesEmpty?.classList.add('hidden');
+      wishesList.prepend(buildWishCard(payload.new));
+    })
+    .subscribe();
+
+  // ── Submit handler ──
+  submitBtn.addEventListener('click', async () => {
+    const nama  = nameInput?.value.trim();
+    const pesan = messageInput?.value.trim();
+
+    if (!nama || !pesan) {
+      setStatus('Nama dan pesan wajib diisi.', true);
+      return;
+    }
+    if (!attendingCb?.checked && !notAttendingCb?.checked) {
+      setStatus('Pilih salah satu: Attending atau Not Attending.', true);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Mengirim...';
+
+    const { error } = await db.from('rsvp').insert({
+      nama,
+      pesan,
+      keterangan: attendingCb.checked ? 'Hadir' : 'Tidak Hadir',
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Message';
+
+    if (error) {
+      setStatus('Gagal mengirim, coba lagi.', true);
+      return;
+    }
+
+    setStatus('Terima kasih atas ucapannya!');
+    nameInput.value = '';
+    messageInput.value = '';
+    attendingCb.checked = false;
+    notAttendingCb.checked = false;
+  });
+});
+
+
+// ============================================================
 //  SCROLL ANIMATIONS
 // ============================================================
 gsap.registerPlugin(ScrollTrigger);
@@ -66,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 1: Album ─────────────────────────────────────
-  const secAlbum = document.querySelector('main > section:nth-of-type(1)');
+  const secAlbum = document.querySelector('#detailSection > section:nth-of-type(1)');
   if (secAlbum) {
     // Teks dekoratif "Album / Of / Us" — masing-masing fade dari sisi
     const [txtAlbum, txtOf, txtUs] = secAlbum.querySelectorAll('span.font-blosta');
@@ -90,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 2: Reservation (form) ────────────────────────
-  const secForm = document.querySelector('main > section:nth-of-type(2)');
+  const secForm = document.querySelector('#detailSection > section:nth-of-type(2)');
   if (secForm) {
     // Header div (h1 + p subtitle) sebagai satu blok
     const headerDiv = secForm.querySelector('.px-6.py-5');
@@ -115,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 3: Kado & Rekening ────────────────────────────
-  const secKado = document.querySelector('main > section:nth-of-type(3)');
+  const secKado = document.querySelector('#detailSection > section:nth-of-type(3)');
   if (secKado) {
     const kadoImg   = secKado.querySelector('.w-\\[45\\%\\]');
     const vivaldi   = secKado.querySelector('.font-vivaldi');
@@ -127,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 4: Closing (dekat dasar → pakai 'top bottom') ─
-  const secClosing = document.querySelector('main > section:nth-of-type(4)');
+  const secClosing = document.querySelector('#detailSection > section:nth-of-type(4)');
   if (secClosing) {
     const bungaBesar  = secClosing.querySelector('img');
     const textContent = secClosing.querySelector('.flex.flex-col.items-end');
