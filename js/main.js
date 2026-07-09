@@ -101,25 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // ── Section 1: Mempelai ──
-  const sectionMempelai = document.querySelector('main > section:nth-of-type(1)');
+  const sectionMempelai = document.querySelector('#pageMain > section:nth-of-type(1)');
   if (sectionMempelai) {
     const rows = sectionMempelai.querySelectorAll(':scope > div');
     fadeUpStagger([...rows], sectionMempelai, 0.18);
   }
 
   // ── Section 2: Tanggal & Jadwal ──
-  const sectionTanggal = document.querySelector('main > section:nth-of-type(2)');
+  const sectionTanggal = document.querySelector('#pageMain > section:nth-of-type(2)');
   if (sectionTanggal) fadeUp(sectionTanggal);
 
   // ── Section 3: Location ──
-  const sectionLocation = document.querySelector('main > section:nth-of-type(3)');
+  const sectionLocation = document.querySelector('#pageMain > section:nth-of-type(3)');
   if (sectionLocation) {
     const groups = sectionLocation.querySelectorAll(':scope > div');
     fadeUpStagger([...groups], sectionLocation, 0.2);
   }
 
   // ── Section 4: Our Story ──
-  const sectionStory = document.querySelector('main > section:nth-of-type(4)');
+  const sectionStory = document.querySelector('#pageMain > section:nth-of-type(4)');
   if (sectionStory) {
     // Heading dulu
     const heading = sectionStory.querySelector('.flex.justify-center');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Section 5: Penutup (bg + ayat) ──
   // Elemen dekat bawah halaman → stagger children pakai 'top bottom'
-  const sectionPenutup = document.querySelector('main > section:nth-of-type(5)');
+  const sectionPenutup = document.querySelector('#pageMain > section:nth-of-type(5)');
   if (sectionPenutup) {
     const [bgImg, bungaImg] = sectionPenutup.querySelectorAll('img');
     const textOverlay = sectionPenutup.querySelector('.flex.flex-col');
@@ -144,24 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
       stagger: 0.15,
       scrollTrigger: {
         trigger: sectionPenutup,
-        start: 'top bottom',
-      },
-    });
-  }
-
-  // ── Section 6: Tombol Lihat Detail ──
-  // Pakai 'top bottom' bukan '88%' karena elemen di ujung halaman
-  // tidak bisa di-scroll cukup jauh untuk mencapai 88% viewport
-  const sectionBtn = document.querySelector('main > section:nth-of-type(6)');
-  if (sectionBtn) {
-    const btnEl = sectionBtn.querySelector('a') ?? sectionBtn;
-    gsap.from(btnEl, {
-      autoAlpha: 0,
-      y: 30,
-      duration: 0.7,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionBtn,
         start: 'top bottom',
       },
     });
