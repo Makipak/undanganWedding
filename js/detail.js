@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusEl        = document.getElementById('rsvpStatus');
   const wishesList       = document.getElementById('wishesList');
   const wishesEmpty      = document.getElementById('wishesEmpty');
+  const loadMoreBtn      = document.getElementById('wishesLoadMoreBtn');
 
   if (!submitBtn || !wishesList) return;
 
@@ -78,29 +79,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const buildWishCard = ({ nama, pesan }) => {
     const card = document.createElement('div');
-    card.className = 'bg-[#f0ede8] rounded-xl px-4 py-3';
+    card.className = 'flex gap-3 bg-[#f0ede8] rounded-xl px-4 py-3 border-l-4 border-[#c9a84c]';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'shrink-0 w-8 h-8 rounded-full bg-[#808b45] text-white flex items-center justify-center font-glacial text-xs uppercase';
+    avatar.textContent = (nama || 'T').trim().charAt(0) || 'T';
+
+    const textWrap = document.createElement('div');
+    textWrap.className = 'min-w-0';
 
     const nameEl = document.createElement('p');
     nameEl.className = 'font-anaktoria text-sm text-[#585f26]';
     nameEl.textContent = nama || 'Tamu';
 
     const msgEl = document.createElement('p');
-    msgEl.className = 'font-glacial text-xs text-[#7a7d35] mt-1';
+    msgEl.className = 'font-glacial text-xs text-[#7a7d35] mt-1 break-words';
     msgEl.textContent = pesan || '';
 
-    card.append(nameEl, msgEl);
+    textWrap.append(nameEl, msgEl);
+    card.append(avatar, textWrap);
     return card;
   };
 
-  // ── Load existing wishes ──
+  // ── Load existing wishes, paginated so the page never forces an inner scroll ──
+  const WISHES_PAGE_SIZE = 5;
+  let pendingWishes = [];
+
+  const renderNextWishesPage = () => {
+    const batch = pendingWishes.splice(0, WISHES_PAGE_SIZE);
+    batch.forEach(row => wishesList.appendChild(buildWishCard(row)));
+    loadMoreBtn?.classList.toggle('hidden', pendingWishes.length === 0);
+  };
+
+  loadMoreBtn?.addEventListener('click', renderNextWishesPage);
+
   db.from('rsvp')
     .select('nama, pesan, created_at')
     .order('created_at', { ascending: false })
-    .limit(50)
+    .limit(200)
     .then(({ data, error }) => {
       if (error || !data || !data.length) return;
       wishesEmpty?.classList.add('hidden');
-      data.forEach(row => wishesList.appendChild(buildWishCard(row)));
+      pendingWishes = data;
+      renderNextWishesPage();
     });
 
   // ── Realtime: new wishes appear live for every visitor, including the sender ──
