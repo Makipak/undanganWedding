@@ -552,19 +552,13 @@ function init() {
   // Page transition (cover → invitation)
   new PageTransition();
 
-  // Sembunyikan countdown + save the date + seluruh halaman berikutnya (pageMain,
-  // pageDetail) sampai semua koin selesai di-scratch. display:'none' dipakai
-  // (bukan cuma autoAlpha) supaya bagian ini tidak menyisakan ruang kosong,
-  // dan supaya pageMain/pageDetail tidak keburu kelihatan/ke-scroll sebelum
-  // scratch selesai (halaman kini scroll menerus, tanpa tombol pindah halaman).
-  const countdownSection = document.getElementById('countdownSection');
-  const saveTheDateText  = document.getElementById('saveTheDateText');
-  const pageMain         = document.getElementById('pageMain');
-  const pageDetail       = document.getElementById('pageDetail');
-  if (countdownSection) gsap.set(countdownSection, { autoAlpha: 0, y: 24, display: 'none' });
-  if (saveTheDateText)  gsap.set(saveTheDateText,  { autoAlpha: 0, y: 16, display: 'none' });
-  if (pageMain)          gsap.set(pageMain,         { display: 'none' });
-  if (pageDetail)        gsap.set(pageDetail,       { display: 'none' });
+  // Sembunyikan countdown + tombol + save the date sampai semua koin selesai di-scratch
+  const countdownSection    = document.getElementById('countdownSection');
+  const bukaUndanganSection = document.getElementById('bukaUndanganSection');
+  const saveTheDateText     = document.getElementById('saveTheDateText');
+  if (countdownSection)    gsap.set(countdownSection,    { autoAlpha: 0, y: 24 });
+  if (bukaUndanganSection) gsap.set(bukaUndanganSection, { autoAlpha: 0, y: 24 });
+  if (saveTheDateText)     gsap.set(saveTheDateText,     { autoAlpha: 0, y: 16 });
 
   // Scratch coins — reveal setelah semua 3 koin selesai
   const coinEls = document.querySelectorAll('[data-coin]');
@@ -573,21 +567,17 @@ function init() {
     doneCount++;
     if (doneCount < coinEls.length) return;
 
-    // Semua koin selesai → confetti + tampilkan save the date + countdown + sisa halaman
+    // Semua koin selesai → confetti + tampilkan save the date + countdown + tombol
     launchConfetti();
     if (saveTheDateText) {
-      gsap.set(saveTheDateText, { display: 'block' });
       gsap.to(saveTheDateText, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' });
     }
     if (countdownSection) {
-      gsap.set(countdownSection, { display: 'block' });
       gsap.to(countdownSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.15 });
     }
-    if (pageMain)   gsap.set(pageMain,   { display: 'block' });
-    if (pageDetail) gsap.set(pageDetail, { display: 'block' });
-    // ScrollTrigger meng-kalkulasi posisi trigger saat pageMain/pageDetail masih
-    // display:none (0 tinggi) — refresh supaya scroll-fade-up di dalamnya akurat.
-    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    if (bukaUndanganSection) {
+      gsap.to(bukaUndanganSection, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.35 });
+    }
   };
   coinEls.forEach(el => new ScratchCoin(el, onCoinComplete));
 

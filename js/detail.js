@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 1: Album ─────────────────────────────────────
-  const secAlbum = document.querySelector('#pageDetail > section:nth-of-type(1)');
+  const secAlbum = document.querySelector('main > section:nth-of-type(1)');
   if (secAlbum) {
     // Teks dekoratif "Album / Of / Us" — masing-masing fade dari sisi
     const [txtAlbum, txtOf, txtUs] = secAlbum.querySelectorAll('span.font-blosta');
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 2: Reservation (form) ────────────────────────
-  const secForm = document.querySelector('#pageDetail > section:nth-of-type(2)');
+  const secForm = document.querySelector('main > section:nth-of-type(2)');
   if (secForm) {
     // Header div (h1 + p subtitle) sebagai satu blok
     const headerDiv = secForm.querySelector('.px-6.py-5');
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 3: Kado & Rekening ────────────────────────────
-  const secKado = document.querySelector('#pageDetail > section:nth-of-type(3)');
+  const secKado = document.querySelector('main > section:nth-of-type(3)');
   if (secKado) {
     const kadoImg   = secKado.querySelector('.w-\\[45\\%\\]');
     const vivaldi   = secKado.querySelector('.font-vivaldi');
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Section 4: Closing (dekat dasar → pakai 'top bottom') ─
-  const secClosing = document.querySelector('#pageDetail > section:nth-of-type(4)');
+  const secClosing = document.querySelector('main > section:nth-of-type(4)');
   if (secClosing) {
     const bungaBesar  = secClosing.querySelector('img');
     const textContent = secClosing.querySelector('.flex.flex-col.items-end');
