@@ -109,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const batch = pendingWishes.splice(0, WISHES_PAGE_SIZE);
     batch.forEach(row => wishesList.appendChild(buildWishCard(row)));
     loadMoreBtn?.classList.toggle('hidden', pendingWishes.length === 0);
+    // List height just changed — keep sections below in sync with their scroll triggers
+    window.ScrollTrigger?.refresh();
   };
 
   loadMoreBtn?.addEventListener('click', renderNextWishesPage);
@@ -129,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvp' }, (payload) => {
       wishesEmpty?.classList.add('hidden');
       wishesList.prepend(buildWishCard(payload.new));
+      window.ScrollTrigger?.refresh();
     })
     .subscribe();
 
@@ -240,8 +243,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ── Section 3: Kado & Rekening ────────────────────────────
-  const secKado = document.querySelector('#detailSection > section:nth-of-type(3)');
+  // ── Section 3: Wishes Wall ─────────────────────────────────
+  // Hanya heading yang di-fade; kartu ucapan dibiarkan langsung muncul
+  // (dimuat & realtime) supaya tidak ikut ganggu re-trigger scroll.
+  const secWishes = document.querySelector('#detailSection > section:nth-of-type(3)');
+  if (secWishes) {
+    const heading = secWishes.querySelector('.text-center');
+    fadeUpStagger([heading], secWishes);
+  }
+
+
+  // ── Section 4: Kado & Rekening ────────────────────────────
+  const secKado = document.querySelector('#detailSection > section:nth-of-type(4)');
   if (secKado) {
     const kadoImg   = secKado.querySelector('.w-\\[45\\%\\]');
     const vivaldi   = secKado.querySelector('.font-vivaldi');
@@ -252,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ── Section 4: Closing (dekat dasar → pakai 'top bottom') ─
-  const secClosing = document.querySelector('#detailSection > section:nth-of-type(4)');
+  // ── Section 5: Closing (dekat dasar → pakai 'top bottom') ─
+  const secClosing = document.querySelector('#detailSection > section:nth-of-type(5)');
   if (secClosing) {
     const bungaBesar  = secClosing.querySelector('img');
     const textContent = secClosing.querySelector('.flex.flex-col.items-end');
