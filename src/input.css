@@ -115,6 +115,9 @@
         min-height: 100vh;
         overflow-x: hidden;
         background-color: var(--bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .font-calgary {
