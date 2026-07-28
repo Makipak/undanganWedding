@@ -2,9 +2,23 @@
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightbox-img');
 const lightboxClose = document.getElementById('lightbox-close');
+const lightboxPrev  = document.getElementById('lightbox-prev');
+const lightboxNext  = document.getElementById('lightbox-next');
 
-function openLightbox(src) {
-  lightboxImg.src = src;
+const albumSrcs = [...document.querySelectorAll('.album-foto')].map(el => el.dataset.src);
+let lightboxIndex = 0;
+
+function isLightboxOpen() {
+  return !lightbox.classList.contains('hidden');
+}
+
+function showPhoto(index) {
+  lightboxIndex = (index + albumSrcs.length) % albumSrcs.length;
+  lightboxImg.src = albumSrcs[lightboxIndex];
+}
+
+function openLightbox(index) {
+  showPhoto(index);
   lightbox.classList.remove('hidden');
   lightbox.classList.add('flex');
   document.documentElement.style.overflow = 'hidden';
@@ -17,13 +31,32 @@ function closeLightbox() {
   setTimeout(() => { lightboxImg.src = ''; }, 250);
 }
 
-document.querySelectorAll('.album-foto').forEach(el => {
-  el.addEventListener('click', () => openLightbox(el.dataset.src));
+document.querySelectorAll('.album-foto').forEach((el, i) => {
+  el.addEventListener('click', () => openLightbox(i));
 });
 
 document.getElementById('lightbox-backdrop').addEventListener('click', closeLightbox);
 lightboxClose.addEventListener('click', closeLightbox);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+lightboxPrev.addEventListener('click', () => showPhoto(lightboxIndex - 1));
+lightboxNext.addEventListener('click', () => showPhoto(lightboxIndex + 1));
+
+document.addEventListener('keydown', e => {
+  if (!isLightboxOpen()) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft')  showPhoto(lightboxIndex - 1);
+  if (e.key === 'ArrowRight') showPhoto(lightboxIndex + 1);
+});
+
+// Swipe kiri/kanan di HP untuk ganti foto
+let touchStartX = 0;
+lightbox.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].clientX;
+}, { passive: true });
+lightbox.addEventListener('touchend', e => {
+  const deltaX = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(deltaX) < 40) return;
+  showPhoto(deltaX < 0 ? lightboxIndex + 1 : lightboxIndex - 1);
+}, { passive: true });
 
 // ──────────────────────────────────────────────────────────────
 
@@ -58,16 +91,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusEl        = document.getElementById('rsvpStatus');
   const wishesList       = document.getElementById('wishesList');
   const wishesEmpty      = document.getElementById('wishesEmpty');
-  const loadMoreBtn      = document.getElementById('wishesLoadMoreBtn');
 
   if (!submitBtn || !wishesList) return;
+
+  // ── Pilihan jumlah tamu (pill 1-4), tampil hanya saat Attending ──
+  const guestCountWrap = document.getElementById('guestCountWrap');
+  const guestCountBtns = [...document.querySelectorAll('.guest-count-btn')];
+  let guestCount = null;
+
+  const resetGuestCount = () => {
+    guestCount = null;
+    guestCountBtns.forEach(b => b.classList.remove('bg-[#5a5a2a]', 'text-white'));
+  };
+
+  const updateGuestCountVisibility = () => {
+    const show = attendingCb?.checked;
+    guestCountWrap?.classList.toggle('hidden', !show);
+    if (!show) resetGuestCount();
+  };
+
+  guestCountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      resetGuestCount();
+      guestCount = Number(btn.dataset.count);
+      btn.classList.add('bg-[#5a5a2a]', 'text-white');
+    });
+  });
 
   // Attending / Not Attending act like a radio pair
   attendingCb?.addEventListener('change', () => {
     if (attendingCb.checked) notAttendingCb.checked = false;
+    updateGuestCountVisibility();
   });
   notAttendingCb?.addEventListener('change', () => {
     if (notAttendingCb.checked) attendingCb.checked = false;
+    updateGuestCountVisibility();
   });
 
   const setStatus = (text, isError = false) => {
@@ -77,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     statusEl.classList.toggle('text-[#5a5a2a]', !isError);
   };
 
-  const buildWishCard = ({ nama, pesan }) => {
+  const buildWishCard = ({ nama, pesan, keterangan, jumlah_tamu }) => {
     const card = document.createElement('div');
     card.className = 'flex gap-3 bg-[#f0ede8] rounded-xl px-4 py-3 border-l-4 border-[#c9a84c]';
 
@@ -88,42 +146,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const textWrap = document.createElement('div');
     textWrap.className = 'min-w-0';
 
+    const nameRow = document.createElement('div');
+    nameRow.className = 'flex items-center gap-2 flex-wrap';
+
     const nameEl = document.createElement('p');
     nameEl.className = 'font-anaktoria text-sm text-[#585f26]';
     nameEl.textContent = nama || 'Tamu';
+    nameRow.append(nameEl);
+
+    if (keterangan) {
+      const badge = document.createElement('span');
+      const hadir = keterangan === 'Hadir';
+      badge.className = 'font-glacial text-[9px] tracking-wide px-2 py-0.5 rounded-full ' +
+        (hadir ? 'bg-[#dfe3c0] text-[#585f26]' : 'bg-[#e8ddd8] text-[#9c6b5e]');
+      badge.textContent = (hadir && jumlah_tamu) ? `${keterangan} · ${jumlah_tamu} orang` : keterangan;
+      nameRow.append(badge);
+    }
 
     const msgEl = document.createElement('p');
     msgEl.className = 'font-glacial text-xs text-[#7a7d35] mt-1 break-words';
     msgEl.textContent = pesan || '';
 
-    textWrap.append(nameEl, msgEl);
+    textWrap.append(nameRow, msgEl);
     card.append(avatar, textWrap);
     return card;
   };
 
-  // ── Load existing wishes, paginated so the page never forces an inner scroll ──
-  const WISHES_PAGE_SIZE = 5;
-  let pendingWishes = [];
-
-  const renderNextWishesPage = () => {
-    const batch = pendingWishes.splice(0, WISHES_PAGE_SIZE);
-    batch.forEach(row => wishesList.appendChild(buildWishCard(row)));
-    loadMoreBtn?.classList.toggle('hidden', pendingWishes.length === 0);
-    // List height just changed — keep sections below in sync with their scroll triggers
-    window.ScrollTrigger?.refresh();
-  };
-
-  loadMoreBtn?.addEventListener('click', renderNextWishesPage);
-
+  // ── Load existing wishes — semua dirender, list-nya scroll internal ──
   db.from('rsvp')
-    .select('nama, pesan, created_at')
+    .select('*')
     .order('created_at', { ascending: false })
     .limit(200)
     .then(({ data, error }) => {
       if (error || !data || !data.length) return;
       wishesEmpty?.classList.add('hidden');
-      pendingWishes = data;
-      renderNextWishesPage();
+      data.forEach(row => wishesList.appendChild(buildWishCard(row)));
+      // Tinggi list berubah (sampai mentok max-height) — sinkronkan scroll trigger
+      window.ScrollTrigger?.refresh();
     });
 
   // ── Realtime: new wishes appear live for every visitor, including the sender ──
@@ -148,6 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setStatus('Pilih salah satu: Attending atau Not Attending.', true);
       return;
     }
+    if (attendingCb.checked && !guestCount) {
+      setStatus('Pilih jumlah tamu yang akan hadir.', true);
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Mengirim...';
@@ -156,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nama,
       pesan,
       keterangan: attendingCb.checked ? 'Hadir' : 'Tidak Hadir',
+      jumlah_tamu: attendingCb.checked ? guestCount : null,
     });
 
     submitBtn.disabled = false;
@@ -171,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     messageInput.value = '';
     attendingCb.checked = false;
     notAttendingCb.checked = false;
+    updateGuestCountVisibility();
   });
 });
 
