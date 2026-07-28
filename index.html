@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./dist/output.css">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
     <title>seRAMAnyabersamaMIA</title>
@@ -140,7 +141,7 @@
 
         <main class="mx-auto flex max-w-md flex-col items-center px-6" style="overflow-x: clip;">
         <!-- 2. Reveal -->
-        <section class="-mt-24 w-full text-center">
+        <section id="revealSection" class="-mt-24 w-full text-center">
             <h2 class="font-citadel text-5xl text-[#585f26]">Reveal</h2>
             <p class="font-glacial mt-2 text-[10px] tracking-[0.4em] text-[#7a7d35] uppercase">
             Gosok untuk Mengungkap Hari Spesial Kami!
@@ -206,6 +207,10 @@
 
         </main>
     </div>
+    <!-- Backsound — ganti src dengan file lagu kamu -->
+    <audio id="bgMusic" src="assets/music/backsound.mp3" loop preload="auto"></audio>
+
     <script src="js/index.js"></script>
+    <script src="js/music.js"></script>
 </body>
 </html>

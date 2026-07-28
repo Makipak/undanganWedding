@@ -204,6 +204,8 @@ class PageTransition {
     tl.set('#objekTengah', { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
     tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
     tl.set('#bungIjo', { autoAlpha: 0 });
+    // Reveal disembunyikan SEBELUM stateDua fade-in, biar tidak sempat kelihatan
+    tl.set('#revealSection', { autoAlpha: 0, y: 40 });
 
     // Lukis foil koin sekarang — invitation sudah display:block tapi masih invisible,
     // sehingga getBoundingClientRect() sudah punya dimensi nyata.
@@ -244,13 +246,23 @@ class PageTransition {
       document.body.style.overflow = '';
     }, null, '+=0.3');
 
-    // 6. Scroll ke bawah otomatis
-    const scrollObj = { y: 0 };
-    tl.to(scrollObj, {
-      y: window.innerHeight,
-      duration: 1.4,
-      ease: 'power2.inOut',
-      onUpdate: () => window.scrollTo(0, scrollObj.y)
+    // 7. Reveal section disembunyikan dulu, dan triggernya baru didaftarkan
+    //    setelah tamu benar-benar scroll — supaya di layar tinggi (section
+    //    sudah terlihat sejak awal) dia tidak langsung muncul otomatis.
+    tl.call(() => {
+      if (!window.ScrollTrigger) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      window.addEventListener('scroll', () => {
+        gsap.to('#revealSection', {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '#revealSection', start: 'top 80%' },
+        });
+        ScrollTrigger.refresh();
+      }, { once: true, passive: true });
     });
   }
 }

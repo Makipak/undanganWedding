@@ -8,4 +8,6 @@ dist/output.css
 .DS_Store
 .env
 
+generator.html
+
 CLAUDE.md
