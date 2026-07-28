@@ -63,6 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // bungaKiri & kanan: goyang dari pangkal bawah (batang)
     sway(bungaKiri,  -3,  3,  2.4, '50% 100%');
     sway(bungaKanan,  3, -3,  2.7, '50% 100%');
+
+    // mainCircle: "napas" halus — membesar-mengecil tipis tanpa henti
+    gsap.to(mainCircle, {
+      scale: 1.03,
+      duration: 3,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
   }
 
 
