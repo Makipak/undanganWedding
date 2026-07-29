@@ -1,7 +1,7 @@
 /**
  * ============================================================
  *  Rama & Mia — Wedding Invitation
- *  Handles: page transition (cover → invitation) + scratch coins
+ *  Handles: page transition (cover → invitation) + scratch coins + kupu-kupu
  * ============================================================
  */
 
@@ -173,21 +173,26 @@ class PageTransition {
 
     const pin            = document.getElementById('pinImg');
     const amplopTutupImg = document.getElementById('amplopTutupImg');
+    const hero           = this.invitation ? this.invitation.querySelector('section') : null;
 
     const tl = gsap.timeline({
       onComplete: () => window.dispatchEvent(new Event('resize'))
     });
 
-    // 1. Semua elemen stateSatu hilang bersamaan
+    // 1. Amplop (saja) zoom in; di tengah zoom, pin terbang & tutup amplop memudar
     tl.set('#openInvitationBtn', { autoAlpha: 0 });
-    tl.to(pin, { y: -80, x: 10, rotate: 45, autoAlpha: 0, duration: 0.45, ease: 'power2.in' });
-    tl.to(amplopTutupImg, { autoAlpha: 0, duration: 0.45, ease: 'power2.inOut' }, '<');
-    tl.to(this.cover, { autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '<+=0.15');
+    tl.to(this.envelope, { scale: 2.3, transformOrigin: '50% 50%', duration: 0.9, ease: 'power2.in' });
+    tl.to(pin, { y: -80, x: 10, rotate: 45, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '<+=0.3');
+    tl.to(amplopTutupImg, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' }, '<+=0.1');
+    tl.to(this.cover, { autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, '<');
 
     // 2. stateDua muncul — set elemen tersembunyi SEBELUM fade in
     //    agar GSAP bisa baca dimensi asli (display:block tapi masih opacity:0)
     tl.set(this.cover,      { display: 'none' });
     tl.set(this.invitation, { display: 'block' });
+    // Amplop terbuka mulai dalam keadaan masih zoom in (background tidak ikut),
+    // nanti di-zoom out perlahan ke ukuran normalnya
+    tl.set(this.amplopWrapper, { scale: 2.3, transformOrigin: '50% 50%' });
 
     // Sembunyikan elemen dalam timeline (bukan init) supaya dimensi sudah tersedia
     const janurKiriImg  = document.querySelector('#s2JanurKiri  img');
@@ -198,11 +203,11 @@ class PageTransition {
     tl.set([janurKiriImg, janurKananImg, bungaKiriImg, bungaKananImg],
       { autoAlpha: 0 });
     // objekKiri punya class scale-80 → end animasi harus 0.8 bukan 1
-    // objekTengah + bungaPink punya translateX(-50%) inline → pakai x:'-50%' agar GSAP gabungkan
-    tl.set('#objekKiri',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
-    tl.set('#objekKanan',  { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
-    tl.set('#objekTengah', { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
-    tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, transformOrigin: '50% 100%' });
+    // y awal menaruh tiap objek di mulut amplop, supaya terlihat keluar dari dalamnya
+    tl.set('#objekKiri',   { autoAlpha: 0, scale: 0, y: 130, transformOrigin: '50% 100%' });
+    tl.set('#objekKanan',  { autoAlpha: 0, scale: 0, y: 60,  transformOrigin: '50% 100%' });
+    tl.set('#objekTengah', { autoAlpha: 0, scale: 0, y: 100, transformOrigin: '50% 100%' });
+    tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, y: 40,  transformOrigin: '50% 100%' });
     tl.set('#bungIjo', { autoAlpha: 0 });
     // Reveal disembunyikan SEBELUM stateDua fade-in, biar tidak sempat kelihatan
     tl.set('#revealSection', { autoAlpha: 0, y: 40 });
@@ -212,20 +217,35 @@ class PageTransition {
     // Tanpa ini, angka muncul sebentar sebelum foil terlukis.
     tl.call(() => window.dispatchEvent(new Event('resize')));
 
-    // invitation + amplopBukaWrapper fade in bersamaan, durasi sama dengan tutup fade out
-    tl.to(this.invitation, { autoAlpha: 1, duration: 0.45, ease: 'power2.inOut' });
-    if (this.amplopWrapper) {
-      tl.from(this.amplopWrapper, { autoAlpha: 0, duration: 0.45, ease: 'power2.inOut' }, '<');
-    }
+    // Amplop terbuka muncul menggantikan amplop tertutup (kamera masih zoom in)
+    tl.to(this.invitation, { autoAlpha: 1, duration: 0.45, ease: 'power2.out' });
 
-    // 4. Janur, bunga, bungIjo langsung muncul (tanpa pop) lalu sway
-    tl.set([janurKiriImg, janurKananImg, bungaKiriImg, bungaKananImg, '#bungIjo'],
-      { autoAlpha: 1 }, '+=0.05');
+    // 3. Amplop zoom out perlahan ke ukuran normal
+    //    (class scale-88 di wrapper → end 0.88, bukan 1)
+    tl.to(this.amplopWrapper, { scale: 0.88, duration: 3.4, ease: 'power2.inOut' }, '+=0.35');
 
-    // 4 objek dalam amplop pop bersamaan
-    tl.to(['#objekKiri', '#objekTengah', '#objekKanan', '#bungaPink'],
-      { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.8)' }, '<');
-    tl.set('#objekKiri', { scale: 0.8 });
+    // Dekorasi belakang (janur, bunga kiri) muncul saat amplop mengecil
+    tl.to([janurKiriImg, janurKananImg, bungaKiriImg],
+      { autoAlpha: 1, duration: 0.8, ease: 'power1.out' }, '<+=0.8');
+
+    // 4. Isi amplop keluar SATU PER SATU dari dalam amplop
+    const isiAmplop = [
+      ['#objekTengah', 1],
+      ['#objekKiri',   0.8], // class scale-80 → end 0.8 bukan 1
+      ['#objekKanan',  1],
+      ['#bungaPink',   1],
+    ];
+    isiAmplop.forEach(([sel, endScale], i) => {
+      tl.to(sel, {
+        autoAlpha: 1, scale: endScale, y: 0,
+        duration: 0.75, ease: 'back.out(1.5)',
+      }, i === 0 ? '<+=0.6' : '<+=0.4');
+    });
+
+    // bungIjo anak dari amplopBukaWrapper (ikut ter-scale saat zoom) dan
+    // bungaKanan berada di layer depan amplop — keduanya baru fade in
+    // setelah amplop sampai di posisi akhirnya
+    tl.to(['#bungIjo', bungaKananImg], { autoAlpha: 1, duration: 0.6, ease: 'power2.out' });
 
     // 5. Sway loop setelah pop selesai
     tl.call(() => {
@@ -240,13 +260,16 @@ class PageTransition {
       sway(bungaKananImg,  3, -3, 2.7, '50% 100%');
     });
 
-    // 6. Unlock scroll
+    // 6. Kupu-kupu keluar dari amplop lalu beterbangan di hero
+    tl.call(() => new Butterflies(hero, this.amplopWrapper).release(), null, '+=0.1');
+
+    // 7. Unlock scroll
     tl.call(() => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     }, null, '+=0.3');
 
-    // 7. Reveal section disembunyikan dulu, dan triggernya baru didaftarkan
+    // 8. Reveal section disembunyikan dulu, dan triggernya baru didaftarkan
     //    setelah tamu benar-benar scroll — supaya di layar tinggi (section
     //    sudah terlihat sejak awal) dia tidak langsung muncul otomatis.
     tl.call(() => {
@@ -263,6 +286,91 @@ class PageTransition {
         });
         ScrollTrigger.refresh();
       }, { once: true, passive: true });
+    });
+  }
+}
+
+
+// ============================================
+//  BUTTERFLIES
+//  Kupu-kupu SVG keluar dari amplop lalu
+//  beterbangan acak di area hero (loop terus)
+// ============================================
+class Butterflies {
+  constructor(hero, anchor, count = 5) {
+    this.hero = hero;
+    this.anchor = anchor || hero; // titik keluar kupu-kupu (amplop)
+    this.count = count;
+  }
+
+  release() {
+    if (!this.hero) return;
+
+    const layer = document.createElement('div');
+    layer.style.cssText = 'position:absolute;inset:0;z-index:40;pointer-events:none;overflow:hidden;';
+    this.hero.appendChild(layer);
+
+    const heroRect = this.hero.getBoundingClientRect();
+    const aRect = this.anchor.getBoundingClientRect();
+    const startX = aRect.left - heroRect.left + aRect.width / 2;
+    const startY = aRect.top - heroRect.top + aRect.height / 2;
+
+    // [warna sayap, warna badan] — dari palet undangan
+    const palettes = [
+      ['#a8b44a', '#585f26'],
+      ['#f9c4c4', '#b76e6e'],
+      ['#d4af37', '#8a6d1f'],
+      ['#c9d17b', '#7a7d35'],
+      ['#f0e3c8', '#b79b5a'],
+    ];
+
+    for (let i = 0; i < this.count; i++) {
+      const size = gsap.utils.random(20, 32);
+      const el = this.build(size, palettes[i % palettes.length]);
+      el.style.left = `${startX - size / 2}px`;
+      el.style.top  = `${startY - size / 2}px`;
+      layer.appendChild(el);
+
+      this.flap(el, gsap.utils.random(0.13, 0.2));
+
+      gsap.set(el, { autoAlpha: 0, scale: 0.3 });
+      gsap.to(el, {
+        autoAlpha: 1, scale: 1,
+        duration: 0.5, ease: 'back.out(1.7)', delay: 0.35 * i,
+        onComplete: () => this.wander(el, heroRect, startX, startY),
+      });
+    }
+  }
+
+  build(size, [wingColor, bodyColor]) {
+    const el = document.createElement('div');
+    el.style.cssText = `position:absolute;width:${size}px;height:${size}px;will-change:transform;`;
+    el.innerHTML = `
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <g class="wing"><path d="M48 52 C 20 10, 0 26, 13 46 C 1 58, 18 86, 48 58 Z" fill="${wingColor}" opacity="0.9"/></g>
+        <g class="wing"><path d="M52 52 C 80 10, 100 26, 87 46 C 99 58, 82 86, 52 58 Z" fill="${wingColor}" opacity="0.9"/></g>
+        <ellipse cx="50" cy="54" rx="3" ry="12" fill="${bodyColor}"/>
+        <path d="M47 44 Q 42 34 38 30 M53 44 Q 58 34 62 30" stroke="${bodyColor}" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>`;
+    return el;
+  }
+
+  // Kepak sayap: scaleX bolak-balik dengan poros di sisi badan
+  flap(el, dur) {
+    const [kiri, kanan] = el.querySelectorAll('.wing');
+    gsap.to(kiri,  { scaleX: 0.3, transformOrigin: '100% 50%', duration: dur, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to(kanan, { scaleX: 0.3, transformOrigin: '0% 50%',   duration: dur, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  }
+
+  // Terbang ke titik acak dalam hero, rekursif tanpa henti
+  wander(el, heroRect, ox, oy) {
+    gsap.to(el, {
+      x: gsap.utils.random(heroRect.width * 0.08, heroRect.width * 0.92) - ox,
+      y: gsap.utils.random(heroRect.height * 0.06, heroRect.height * 0.62) - oy,
+      rotation: gsap.utils.random(-18, 18),
+      duration: gsap.utils.random(2.5, 4.5),
+      ease: 'sine.inOut',
+      onComplete: () => this.wander(el, heroRect, ox, oy),
     });
   }
 }
