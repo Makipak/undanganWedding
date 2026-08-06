@@ -179,9 +179,9 @@ class PageTransition {
       onComplete: () => window.dispatchEvent(new Event('resize'))
     });
 
-    // 1. Amplop (saja) zoom in; di tengah zoom, pin terbang & tutup amplop memudar
+    // 1. Kamera zoom in ke seluruh scene; di tengah zoom, pin terbang & tutup amplop memudar
     tl.set('#openInvitationBtn', { autoAlpha: 0 });
-    tl.to(this.envelope, { scale: 2.3, transformOrigin: '50% 50%', duration: 0.9, ease: 'power2.in' });
+    tl.to(this.cover, { scale: 2.3, transformOrigin: '50% 50%', duration: 0.9, ease: 'power2.in' });
     tl.to(pin, { y: -80, x: 10, rotate: 45, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '<+=0.3');
     tl.to(amplopTutupImg, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' }, '<+=0.1');
     tl.to(this.cover, { autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, '<');
@@ -190,9 +190,9 @@ class PageTransition {
     //    agar GSAP bisa baca dimensi asli (display:block tapi masih opacity:0)
     tl.set(this.cover,      { display: 'none' });
     tl.set(this.invitation, { display: 'block' });
-    // Amplop terbuka mulai dalam keadaan masih zoom in (background tidak ikut),
-    // nanti di-zoom out perlahan ke ukuran normalnya
-    tl.set(this.amplopWrapper, { scale: 2.3, transformOrigin: '50% 50%' });
+    // Seluruh hero (background, dekorasi, amplop) mulai dalam keadaan masih
+    // zoom in, nanti di-zoom out bersamaan perlahan — persis efek kamera mundur
+    tl.set(hero, { scale: 2.3, transformOrigin: '50% 40%' });
 
     // Sembunyikan elemen dalam timeline (bukan init) supaya dimensi sudah tersedia
     const janurKiriImg  = document.querySelector('#s2JanurKiri  img');
@@ -208,7 +208,7 @@ class PageTransition {
     tl.set('#objekKanan',  { autoAlpha: 0, scale: 0, y: 60,  transformOrigin: '50% 100%' });
     tl.set('#objekTengah', { autoAlpha: 0, scale: 0, y: 100, transformOrigin: '50% 100%' });
     tl.set('#bungaPink',   { autoAlpha: 0, scale: 0, y: 40,  transformOrigin: '50% 100%' });
-    tl.set('#bungIjo', { autoAlpha: 0 });
+    tl.set('#bungIjo',     { autoAlpha: 0 });
     // Reveal disembunyikan SEBELUM stateDua fade-in, biar tidak sempat kelihatan
     tl.set('#revealSection', { autoAlpha: 0, y: 40 });
 
@@ -220,12 +220,11 @@ class PageTransition {
     // Amplop terbuka muncul menggantikan amplop tertutup (kamera masih zoom in)
     tl.to(this.invitation, { autoAlpha: 1, duration: 0.45, ease: 'power2.out' });
 
-    // 3. Amplop zoom out perlahan ke ukuran normal
-    //    (class scale-88 di wrapper → end 0.88, bukan 1)
-    tl.to(this.amplopWrapper, { scale: 0.88, duration: 3.4, ease: 'power2.inOut' }, '+=0.35');
+    // 3. Zoom out perlahan — scene terungkap pelan-pelan (efek Ken Burns)
+    tl.to(hero, { scale: 1, duration: 3.4, ease: 'power2.inOut' }, '+=0.35');
 
-    // Dekorasi belakang (janur, bunga kiri) muncul saat amplop mengecil
-    tl.to([janurKiriImg, janurKananImg, bungaKiriImg],
+    // Dekorasi (janur, bunga, bungIjo) ikut muncul saat kamera mundur, lalu sway
+    tl.to([janurKiriImg, janurKananImg, bungaKiriImg, bungaKananImg, '#bungIjo'],
       { autoAlpha: 1, duration: 0.8, ease: 'power1.out' }, '<+=0.8');
 
     // 4. Isi amplop keluar SATU PER SATU dari dalam amplop
@@ -241,11 +240,6 @@ class PageTransition {
         duration: 0.75, ease: 'back.out(1.5)',
       }, i === 0 ? '<+=0.6' : '<+=0.4');
     });
-
-    // bungIjo anak dari amplopBukaWrapper (ikut ter-scale saat zoom) dan
-    // bungaKanan berada di layer depan amplop — keduanya baru fade in
-    // setelah amplop sampai di posisi akhirnya
-    tl.to(['#bungIjo', bungaKananImg], { autoAlpha: 1, duration: 0.6, ease: 'power2.out' });
 
     // 5. Sway loop setelah pop selesai
     tl.call(() => {
