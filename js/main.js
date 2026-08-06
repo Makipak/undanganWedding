@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const bungaKiri  = document.getElementById('bungaKiri');
   const bungaKanan = document.getElementById('bungaKanan');
   const mainCircle = document.getElementById('mainCircle');
+  const taliBawah  = document.getElementById('taliBawah');
 
   // ── Sembunyikan semua sebelum pop-in ──
   gsap.set([lampuKiri, lampuKanan], { autoAlpha: 0, y: -24 });
@@ -21,8 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.set([daunAtas],              { autoAlpha: 0, y: -18 });
   gsap.set([bungaKiri, bungaKanan], { autoAlpha: 0, scale: 0.6, transformOrigin: '50% 100%' });
   gsap.set([mainCircle],            { autoAlpha: 0, scale: 0.5, transformOrigin: '50% 50%' });
+  gsap.set([taliBawah],             { autoAlpha: 0, y: -16, transformOrigin: '50% 0%' });
 
-  // ── Timeline pop-in (urutan: daunAtas → lampu → daun sisi → bunga → mainCircle) ──
+  // ── Timeline pop-in (urutan: daunAtas → lampu → daun sisi → bunga → mainCircle → taliBawah) ──
   const tl = gsap.timeline({
     defaults: { ease: 'back.out(1.7)', duration: 0.55 },
     onComplete: startSway,
@@ -32,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .to([lampuKiri, lampuKanan], { autoAlpha: 1, y: 0 },              '+=0.05')
     .to([daunKiri, daunKanan],   { autoAlpha: 1, x: 0 },              '+=0.05')
     .to([bungaKiri, bungaKanan], { autoAlpha: 1, scale: 1, stagger: 0.12 }, '+=0.05')
-    .to(mainCircle,              { autoAlpha: 1, scale: 1, duration: 0.65, ease: 'back.out(2)' }, '+=0.08');
+    .to(mainCircle,              { autoAlpha: 1, scale: 1, duration: 0.65, ease: 'back.out(2)' }, '+=0.08')
+    .to(taliBawah,               { autoAlpha: 1, y: 0 },              '+=0.05');
 
   // ── Sway loop dimulai setelah pop-in selesai ──
   function startSway() {
