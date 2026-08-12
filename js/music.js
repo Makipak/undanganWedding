@@ -28,9 +28,21 @@
   });
 
   // ── Lanjutkan dari posisi tersimpan (kalau sebelumnya sedang main) ──
-  const savedTime  = parseFloat(sessionStorage.getItem('musicTime') || '0');
-  const wasPlaying = sessionStorage.getItem('musicPlaying') === 'true';
-  let timeApplied  = false;
+  // Halaman dengan #openInvitationBtn (index.html) memang sengaja baru
+  // mulai musik saat tombol itu diklik — jadi kalau belum ada riwayat sama
+  // sekali, jangan dipaksa autoplay di situ.
+  // Halaman TANPA tombol itu (mis. main.html dibuka langsung dari link WA,
+  // atau di-refresh) tidak punya gesture khusus buat mulai musik — kalau
+  // dibiarkan default "belum pernah main", musik jadi diam selamanya
+  // sampai tamu ngeh harus tap ikon toggle-nya sendiri (sering kejadian di
+  // iPhone). Makanya di halaman begini kita anggap "harusnya main" sejak
+  // awal, supaya percobaan autoplay + fallback-nya langsung aktif dan
+  // musik kepancing oleh interaksi APAPUN yang tamu lakukan duluan.
+  const hasOpenBtn      = !!document.getElementById('openInvitationBtn');
+  const savedPlayingRaw = sessionStorage.getItem('musicPlaying');
+  const savedTime       = parseFloat(sessionStorage.getItem('musicTime') || '0');
+  const wasPlaying      = savedPlayingRaw !== null ? savedPlayingRaw === 'true' : !hasOpenBtn;
+  let timeApplied = false;
 
   const applyTime = () => {
     if (timeApplied) return;
