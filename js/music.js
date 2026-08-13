@@ -44,8 +44,17 @@
   const wasPlaying      = savedPlayingRaw !== null ? savedPlayingRaw === 'true' : !hasOpenBtn;
   let timeApplied = false;
 
+  // PENTING: kalau readyState masih 0 (metadata lagu belum kebaca), nge-set
+  // currentTime SEKARANG tidak reliable — begitu metadata datang belakangan,
+  // browser bisa reset balik currentTime ke 0 (terverifikasi: ini yang bikin
+  // lagu "ngulang" alih-alih lanjut). Kalau ketemu kondisi itu, tunda diri
+  // sendiri sampai event 'loadedmetadata', baru coba lagi.
   const applyTime = () => {
     if (timeApplied) return;
+    if (bgMusic.readyState < 1) {
+      bgMusic.addEventListener('loadedmetadata', applyTime, { once: true });
+      return;
+    }
     timeApplied = true;
     if (savedTime > 0 && savedTime < (bgMusic.duration || Infinity)) {
       bgMusic.currentTime = savedTime;
@@ -55,18 +64,16 @@
   // Coba lanjut otomatis. Kalau ditolak (khas Safari/iOS setelah pindah
   // halaman), tunggu interaksi pertama tamu di beberapa jenis event
   // sekaligus lalu coba lagi — sekali berhasil, semua listener dilepas.
-  //
-  // PENTING: applyTime() dipanggil di awal tryResume() juga, bukan cuma di
-  // percobaan fallback. Sebelumnya applyTime() cuma jalan lewat listener
-  // 'loadedmetadata' terpisah yang tidak dijamin selesai lebih dulu — kalau
-  // kebetulan browser meloloskan percobaan play() PERTAMA sebelum currentTime
-  // sempat di-seek, lagu jadi mulai dari 0 alih-alih lanjut dari posisi
-  // tersimpan — kedengarannya seperti "ngulang". applyTime() sendiri aman
-  // dipanggil walau metadata belum siap (readyState 0): browser menyimpannya
-  // sebagai "default playback start position" dan menerapkannya begitu
-  // metadata siap, jadi tidak perlu menunda tryResume() untuk ini.
   const tryResume = () => {
     if (!wasPlaying || !bgMusic.paused) return;
+    // Sama seperti applyTime(): kalau metadata belum siap, tunda dulu diri
+    // sendiri sampai 'loadedmetadata' — supaya applyTime() di bawah beneran
+    // nempel SEBELUM play() dicoba, bukan cuma dipanggil duluan tapi hasilnya
+    // ke-reset lagi begitu metadata datang.
+    if (bgMusic.readyState < 1) {
+      bgMusic.addEventListener('loadedmetadata', tryResume, { once: true });
+      return;
+    }
     applyTime();
     bgMusic.play().catch(() => {
       const events = ['pointerdown', 'touchend', 'click', 'keydown'];
