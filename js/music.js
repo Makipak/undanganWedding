@@ -51,14 +51,23 @@
       bgMusic.currentTime = savedTime;
     }
   };
-  if (bgMusic.readyState >= 1) applyTime();
-  else bgMusic.addEventListener('loadedmetadata', applyTime, { once: true });
 
   // Coba lanjut otomatis. Kalau ditolak (khas Safari/iOS setelah pindah
   // halaman), tunggu interaksi pertama tamu di beberapa jenis event
   // sekaligus lalu coba lagi — sekali berhasil, semua listener dilepas.
+  //
+  // PENTING: applyTime() dipanggil di awal tryResume() juga, bukan cuma di
+  // percobaan fallback. Sebelumnya applyTime() cuma jalan lewat listener
+  // 'loadedmetadata' terpisah yang tidak dijamin selesai lebih dulu — kalau
+  // kebetulan browser meloloskan percobaan play() PERTAMA sebelum currentTime
+  // sempat di-seek, lagu jadi mulai dari 0 alih-alih lanjut dari posisi
+  // tersimpan — kedengarannya seperti "ngulang". applyTime() sendiri aman
+  // dipanggil walau metadata belum siap (readyState 0): browser menyimpannya
+  // sebagai "default playback start position" dan menerapkannya begitu
+  // metadata siap, jadi tidak perlu menunda tryResume() untuk ini.
   const tryResume = () => {
     if (!wasPlaying || !bgMusic.paused) return;
+    applyTime();
     bgMusic.play().catch(() => {
       const events = ['pointerdown', 'touchend', 'click', 'keydown'];
       const resume = () => {
@@ -71,10 +80,16 @@
   };
   tryResume();
 
-  // Halaman pembuka: musik mulai saat tamu menekan "Open Invitation"
-  // (klik = user gesture, jadi lolos kebijakan autoplay browser)
-  document.getElementById('openInvitationBtn')?.addEventListener('click', () => {
-    if (bgMusic.paused) bgMusic.play().catch(() => {});
+  // Tombol/area dengan user gesture asli: gambar amplop (#envelope — area tap
+  // yang sebenarnya, jauh lebih besar dari #openInvitationBtn yang cuma teks
+  // kecil "Open Invitation" di dalamnya), #openInvitationBtn itu sendiri, dan
+  // "Buka Undangan" (yang memicu pindah ke main.html). Ketiganya dipastikan
+  // panggil play() di dalam klik asli — klik = lolos kebijakan autoplay
+  // browser selama masih di dokumen yang sama.
+  ['envelope', 'openInvitationBtn', 'bukaUndanganBtn'].forEach((id) => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      if (bgMusic.paused) bgMusic.play().catch(() => {});
+    });
   });
 
   // ── Tombol toggle musik (fallback manual) ──
