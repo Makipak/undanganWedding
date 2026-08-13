@@ -16,9 +16,36 @@
   const bgMusic = document.getElementById('bgMusic');
   if (!bgMusic) return;
 
+  // ── DEBUG SEMENTARA — HAPUS SETELAH SELESAI DIAGNOSIS ──
+  // Aktif hanya kalau URL diakhiri ?musicdebug=1 (atau &musicdebug=1).
+  // Nampilin kotak log kecil transparan di atas layar biar kelihatan
+  // langsung di HP tanpa perlu Safari Web Inspector / kabel ke Mac.
+  const DEBUG = /[?&]musicdebug=1\b/.test(location.search);
+  let debugBox = null;
+  const debugLog = (label) => {
+    if (!DEBUG) return;
+    const line = `[${new Date().toISOString().slice(11, 23)}] ${label} | rs=${bgMusic.readyState} t=${bgMusic.currentTime.toFixed(2)} dur=${(bgMusic.duration || 0).toFixed(1)} paused=${bgMusic.paused}\n`;
+    if (!debugBox) {
+      debugBox = document.createElement('div');
+      Object.assign(debugBox.style, {
+        position: 'fixed', top: '0', left: '0', right: '0', zIndex: '999999',
+        background: 'rgba(0,0,0,0.88)', color: '#5f5', fontSize: '9px',
+        fontFamily: 'monospace', padding: '4px', maxHeight: '42vh',
+        overflowY: 'auto', whiteSpace: 'pre-wrap', pointerEvents: 'none',
+      });
+      const attach = () => document.body.appendChild(debugBox);
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach);
+      else attach();
+    }
+    debugBox.textContent += line;
+    debugBox.scrollTop = debugBox.scrollHeight;
+  };
+  debugLog('script-start');
+
   const saveMusicState = () => {
     sessionStorage.setItem('musicTime', String(bgMusic.currentTime || 0));
     sessionStorage.setItem('musicPlaying', String(!bgMusic.paused));
+    debugLog('saveMusicState saved=' + bgMusic.currentTime.toFixed(2));
   };
 
   // Simpan posisi saat halaman ditinggalkan / disembunyikan
@@ -43,6 +70,7 @@
   const savedTime       = parseFloat(sessionStorage.getItem('musicTime') || '0');
   const wasPlaying      = savedPlayingRaw !== null ? savedPlayingRaw === 'true' : !hasOpenBtn;
   let timeApplied = false;
+  debugLog(`init hasOpenBtn=${hasOpenBtn} savedPlayingRaw=${savedPlayingRaw} savedTime=${savedTime} wasPlaying=${wasPlaying}`);
 
   // PENTING: kalau readyState masih 0 (metadata lagu belum kebaca), nge-set
   // currentTime SEKARANG tidak reliable — begitu metadata datang belakangan,
@@ -52,12 +80,16 @@
   const applyTime = () => {
     if (timeApplied) return;
     if (bgMusic.readyState < 1) {
+      debugLog('applyTime DEFER (readyState<1)');
       bgMusic.addEventListener('loadedmetadata', applyTime, { once: true });
       return;
     }
     timeApplied = true;
     if (savedTime > 0 && savedTime < (bgMusic.duration || Infinity)) {
       bgMusic.currentTime = savedTime;
+      debugLog('applyTime SEEK -> ' + savedTime);
+    } else {
+      debugLog('applyTime NOOP (savedTime out of range)');
     }
   };
 
@@ -65,22 +97,31 @@
   // halaman), tunggu interaksi pertama tamu di beberapa jenis event
   // sekaligus lalu coba lagi — sekali berhasil, semua listener dilepas.
   const tryResume = () => {
-    if (!wasPlaying || !bgMusic.paused) return;
+    debugLog('tryResume enter');
+    if (!wasPlaying || !bgMusic.paused) { debugLog('tryResume SKIP'); return; }
     // Sama seperti applyTime(): kalau metadata belum siap, tunda dulu diri
     // sendiri sampai 'loadedmetadata' — supaya applyTime() di bawah beneran
     // nempel SEBELUM play() dicoba, bukan cuma dipanggil duluan tapi hasilnya
     // ke-reset lagi begitu metadata datang.
     if (bgMusic.readyState < 1) {
+      debugLog('tryResume DEFER (readyState<1)');
       bgMusic.addEventListener('loadedmetadata', tryResume, { once: true });
       return;
     }
     applyTime();
-    bgMusic.play().catch(() => {
+    debugLog('tryResume calling play()');
+    bgMusic.play().then(() => {
+      debugLog('tryResume play() RESOLVED');
+    }).catch((err) => {
+      debugLog('tryResume play() REJECTED: ' + (err && err.name));
       const events = ['pointerdown', 'touchend', 'click', 'keydown'];
       const resume = () => {
         events.forEach(evt => document.removeEventListener(evt, resume, true));
+        debugLog('fallback resume() fired, t before applyTime=' + bgMusic.currentTime.toFixed(2));
         applyTime();
-        bgMusic.play().catch(() => {});
+        bgMusic.play().then(() => {
+          debugLog('fallback play() RESOLVED t=' + bgMusic.currentTime.toFixed(2));
+        }).catch((e2) => debugLog('fallback play() REJECTED: ' + (e2 && e2.name)));
       };
       events.forEach(evt => document.addEventListener(evt, resume, { capture: true }));
     });
@@ -95,7 +136,10 @@
   // browser selama masih di dokumen yang sama.
   ['envelope', 'openInvitationBtn', 'bukaUndanganBtn'].forEach((id) => {
     document.getElementById(id)?.addEventListener('click', () => {
-      if (bgMusic.paused) bgMusic.play().catch(() => {});
+      debugLog(`click #${id} paused=${bgMusic.paused}`);
+      if (bgMusic.paused) bgMusic.play().then(() => {
+        debugLog(`click #${id} play() RESOLVED t=` + bgMusic.currentTime.toFixed(2));
+      }).catch((e) => debugLog(`click #${id} play() REJECTED: ` + (e && e.name)));
     });
   });
 
