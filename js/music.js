@@ -17,10 +17,13 @@
   if (!bgMusic) return;
 
   // ── DEBUG SEMENTARA — HAPUS SETELAH SELESAI DIAGNOSIS ──
-  // Aktif hanya kalau URL diakhiri ?musicdebug=1 (atau &musicdebug=1).
-  // Nampilin kotak log kecil transparan di atas layar biar kelihatan
-  // langsung di HP tanpa perlu Safari Web Inspector / kabel ke Mac.
-  const DEBUG = /[?&]musicdebug=1\b/.test(location.search);
+  // Aktifkan sekali lewat URL ?musicdebug=1 (atau &musicdebug=1) — begitu
+  // aktif, nempel terus (via sessionStorage) sepanjang sesi tab ini, ikut
+  // kebawa walau pindah ke main.html (yang href-nya di-generate ulang oleh
+  // index.js tanpa query string ini). Nampilin kotak log kecil transparan
+  // di atas layar biar kelihatan langsung di HP tanpa Safari Web Inspector.
+  if (/[?&]musicdebug=1\b/.test(location.search)) sessionStorage.setItem('musicdebug', '1');
+  const DEBUG = sessionStorage.getItem('musicdebug') === '1';
   let debugBox = null;
   const debugLog = (label) => {
     if (!DEBUG) return;
