@@ -66,6 +66,8 @@
       if (!liveClock) return;
       liveClock.textContent = (bgMusic.paused ? '⏸ ' : '▶ ') + fmt(bgMusic.currentTime);
     }, 200);
+    bgMusic.addEventListener('seeking', () => debugLog('event: seeking -> ' + bgMusic.currentTime.toFixed(2)));
+    bgMusic.addEventListener('seeked', () => debugLog('event: seeked -> ' + bgMusic.currentTime.toFixed(2)));
   }
 
   const saveMusicState = () => {
@@ -98,11 +100,16 @@
   let timeApplied = false;
   debugLog(`init hasOpenBtn=${hasOpenBtn} savedPlayingRaw=${savedPlayingRaw} savedTime=${savedTime} wasPlaying=${wasPlaying}`);
 
-  // PENTING: kalau readyState masih 0 (metadata lagu belum kebaca), nge-set
-  // currentTime SEKARANG tidak reliable — begitu metadata datang belakangan,
-  // browser bisa reset balik currentTime ke 0 (terverifikasi: ini yang bikin
-  // lagu "ngulang" alih-alih lanjut). Kalau ketemu kondisi itu, tunda diri
-  // sendiri sampai event 'loadedmetadata', baru coba lagi.
+  // PENTING (revisi ke-2): sebelumnya kita seek DULU baru play(). Ternyata di
+  // iPhone urutan itu yang bikin "ngulang" — kebuktian dari log: currentTime
+  // ke-set ke angka yang benar TAPI freeze di situ (event 'timeupdate' tidak
+  // jalan), sementara suara yang kedengaran mulai dari awal file. Ini karena
+  // saat di-seek, elemen masih "dingin" (baru readyState HAVE_METADATA, belum
+  // ada data ke-buffer di posisi yang dituju) — iOS diam-diam main dari data
+  // yang sudah ke-buffer (awal file) alih-alih benar-benar pindah ke situ.
+  // Fix: play() DULU (elemen jadi aktif & mulai buffering nyata), BARU seek
+  // setelah play() resolve — browser jauh lebih taat pindah posisi saat
+  // elemen sedang aktif memutar dibanding saat masih diam/dingin.
   const applyTime = () => {
     if (timeApplied) return;
     if (bgMusic.readyState < 1) {
@@ -125,28 +132,19 @@
   const tryResume = () => {
     debugLog('tryResume enter');
     if (!wasPlaying || !bgMusic.paused) { debugLog('tryResume SKIP'); return; }
-    // Sama seperti applyTime(): kalau metadata belum siap, tunda dulu diri
-    // sendiri sampai 'loadedmetadata' — supaya applyTime() di bawah beneran
-    // nempel SEBELUM play() dicoba, bukan cuma dipanggil duluan tapi hasilnya
-    // ke-reset lagi begitu metadata datang.
-    if (bgMusic.readyState < 1) {
-      debugLog('tryResume DEFER (readyState<1)');
-      bgMusic.addEventListener('loadedmetadata', tryResume, { once: true });
-      return;
-    }
-    applyTime();
-    debugLog('tryResume calling play()');
+    debugLog('tryResume calling play() (seek nanti setelah resolve)');
     bgMusic.play().then(() => {
-      debugLog('tryResume play() RESOLVED');
+      debugLog('tryResume play() RESOLVED, seeking now');
+      applyTime();
     }).catch((err) => {
       debugLog('tryResume play() REJECTED: ' + (err && err.name));
       const events = ['pointerdown', 'touchend', 'click', 'keydown'];
       const resume = () => {
         events.forEach(evt => document.removeEventListener(evt, resume, true));
-        debugLog('fallback resume() fired, t before applyTime=' + bgMusic.currentTime.toFixed(2));
-        applyTime();
+        debugLog('fallback resume() fired, calling play()');
         bgMusic.play().then(() => {
-          debugLog('fallback play() RESOLVED t=' + bgMusic.currentTime.toFixed(2));
+          debugLog('fallback play() RESOLVED, seeking now t=' + bgMusic.currentTime.toFixed(2));
+          applyTime();
         }).catch((e2) => debugLog('fallback play() REJECTED: ' + (e2 && e2.name)));
       };
       events.forEach(evt => document.addEventListener(evt, resume, { capture: true }));
@@ -218,8 +216,9 @@
 
   btn.addEventListener('click', () => {
     if (bgMusic.paused) {
-      applyTime();
-      bgMusic.play().catch(() => {});
+      // Sama seperti tryResume(): play() dulu, seek belakangan setelah aktif
+      // memutar — supaya tidak kena bug "freeze di posisi lama, suara dari 0".
+      bgMusic.play().then(() => applyTime()).catch(() => {});
     } else {
       bgMusic.pause();
     }
