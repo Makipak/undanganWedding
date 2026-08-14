@@ -45,6 +45,29 @@
   };
   debugLog('script-start');
 
+  // Angka detik BERJALAN REAL-TIME (bukan snapshot log) — biar bisa dicocokkan
+  // LANGSUNG sambil dengar: "layar bilang 0:41, tapi yang kedengaran kok kayak
+  // awal lagu?" — kalau memang beda, itu bukti currentTime JS vs audio yang
+  // benar-benar kedengaran di hardware iPhone tidak sinkron.
+  let liveClock = null;
+  if (DEBUG) {
+    liveClock = document.createElement('div');
+    Object.assign(liveClock.style, {
+      position: 'fixed', top: '0', right: '0', zIndex: '999999',
+      background: '#c00', color: '#fff', fontSize: '13px', fontWeight: 'bold',
+      fontFamily: 'monospace', padding: '3px 8px', pointerEvents: 'none',
+    });
+    liveClock.textContent = '--:--';
+    const attachClock = () => document.body.appendChild(liveClock);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attachClock);
+    else attachClock();
+    const fmt = (s) => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+    setInterval(() => {
+      if (!liveClock) return;
+      liveClock.textContent = (bgMusic.paused ? '⏸ ' : '▶ ') + fmt(bgMusic.currentTime);
+    }, 200);
+  }
+
   const saveMusicState = () => {
     sessionStorage.setItem('musicTime', String(bgMusic.currentTime || 0));
     sessionStorage.setItem('musicPlaying', String(!bgMusic.paused));
